@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Colaborador.cs" />
+    <Compile Include="Controles.cs" />
+    <Compile Include="Telas\TelaHorasExtras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Telas\TelaHorasExtras.Designer.cs">
+      <DependentUpon>TelaHorasExtras.cs</DependentUpon>
+    </Compile>
     <Compile Include="Telas\TelaColaboradores.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +80,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Telas\TelaHorasExtras.resx">
+      <DependentUpon>TelaHorasExtras.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Telas\TelaColaboradores.resx">
       <DependentUpon>TelaColaboradores.cs</DependentUpon>
     </EmbeddedResource>

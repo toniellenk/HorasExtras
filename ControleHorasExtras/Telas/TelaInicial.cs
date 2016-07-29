@@ -14,7 +14,8 @@ namespace ControleHorasExtras
     public partial class TelaInicial : Form
     {
         string ItemSelecionado;
-        
+        string TipoGrid;
+
         public TelaInicial()
         {
             InitializeComponent();
@@ -22,13 +23,28 @@ namespace ControleHorasExtras
 
         private void ButAdicionar_Click(object sender, EventArgs e)
         {
-            Form Colaboradores = new TelaColaboradores(this);
+            Form Colaboradores = new TelaHorasExtras(this);
             Colaboradores.ShowDialog();
         }
 
         private void MenuColaboradores_Click(object sender, EventArgs e)
         {
-            AtualizaListaColaboradores();
+            switch (TipoGrid) { 
+            case "Colaborador":
+                {
+                    AtualizaListaColaboradores();
+                    break;
+                }
+            case "HorasExtras":
+                {
+                    AtualizaListaColaboradores();
+                    break;
+                }
+            default: {
+                        break;
+                    } 
+            }
+
         }
 
         #region Métodos
@@ -43,7 +59,7 @@ namespace ControleHorasExtras
         private void ButAlterar_Click(object sender, EventArgs e)
         {
             ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString();
-            Form Colaboradores = new TelaColaboradores(ItemSelecionado, this);
+            Form Colaboradores = new TelaHorasExtras(ItemSelecionado, this);
             Colaboradores.ShowDialog();
         }
 
@@ -52,5 +68,7 @@ namespace ControleHorasExtras
             File.Delete(Colaborador.UrlDiretorio + ItemSelecionado + ".txt");
             MessageBox.Show("Colaborador excluído com sucesso!");
         }
+
+
     }
 }

@@ -37,6 +37,7 @@
             this.ButAdicionar = new System.Windows.Forms.Button();
             this.ButAlterar = new System.Windows.Forms.Button();
             this.ButRemover = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.MenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridPrincipal)).BeginInit();
             this.SuspendLayout();
@@ -151,11 +152,21 @@
             this.ButRemover.UseVisualStyleBackColor = true;
             this.ButRemover.Click += new System.EventHandler(this.ButRemover_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(345, 467);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Horas Extras";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // TelaInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.ButRemover);
             this.Controls.Add(this.ButAlterar);
             this.Controls.Add(this.ButAdicionar);
@@ -183,6 +194,7 @@
         private System.Windows.Forms.Button ButAdicionar;
         private System.Windows.Forms.Button ButAlterar;
         private System.Windows.Forms.Button ButRemover;
+        private System.Windows.Forms.Button button1;
     }
 }
 

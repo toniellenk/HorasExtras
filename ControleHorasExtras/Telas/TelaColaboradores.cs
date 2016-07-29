@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ControleHorasExtras
 {
-    public partial class TelaColaboradores : Form
+    public partial class TelaColaboradores: Form
     {
         Colaborador ObjColaborador = new Colaborador();
         string ItemSelecionado;
@@ -84,30 +84,27 @@ namespace ControleHorasExtras
             StreamWriter Texto;
             string UrlAquivo = UrlDiretorio + NomeArquivo;
 
-            if (File.Exists(UrlAquivo))
-            {
                 if (ItemSelecionado == null)
                 {
-                    if (!ValidaMensagem("Já Existe o colaborador " + ObjColaborador.Nome + " deseja apenas altera-lo?", "Valida Colaborador"))
+                    if ((File.Exists(UrlAquivo)) && (!ValidaMensagem("Já Existe o registro " + ObjColaborador.Nome + " deseja apenas altera-lo?", "Valida Colaborador")))
                     {
                         this.Close();
                         this.FormTelaIicial.AtualizaListaColaboradores();
                     }
-                    else
-                    {
-                        Texto = File.CreateText(UrlAquivo);
-                        Texto.Close();
-                        AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
-                        AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
-                        AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
-                        if (ValidaMensagem("Colaborador cadastrado com sucesso! Deseja cadastrar um novo colaborador?", "Responda"))
-                        {
-                            LimpaCampos();
-                        }
-                        else {
-                            this.Close();
-                            this.FormTelaIicial.AtualizaListaColaboradores();
-                        }
+                    else { 
+                                Texto = File.CreateText(UrlAquivo);
+                                Texto.Close();
+                                AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
+                                AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
+                                AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
+                                if (ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
+                                {
+                                    LimpaCampos();
+                                }
+                                else {
+                                    this.Close();
+                                    this.FormTelaIicial.AtualizaListaColaboradores();
+                                }
                     }
                 }
                 else
@@ -118,11 +115,10 @@ namespace ControleHorasExtras
                     AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
                     AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
                     AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
-                    MessageBox.Show("Colaborador alterado com sucesso!");
+                    MessageBox.Show("Registro " +ObjColaborador.Nome+ " alterado com sucesso!");
                     this.Close();
                     this.FormTelaIicial.AtualizaListaColaboradores();
                 }
-            }
         }
         private void AlteraArquivo(string UrlArquivo, string Conteudo)
         {
