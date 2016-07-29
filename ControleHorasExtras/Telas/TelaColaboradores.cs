@@ -60,6 +60,25 @@ namespace ControleHorasExtras
             TxtBxSobrenome.Clear();
             TxtBxSalario.Clear();
         }
+
+        public void LerAquivo(string UrlDiretorio, string NomeArquivo)
+        {
+            StreamReader Texto;
+            string UrlAquivo = UrlDiretorio + NomeArquivo;
+
+            if (File.Exists(UrlAquivo))
+            {
+                Texto = File.OpenText(UrlAquivo);
+                TxtBxNome.Text = Texto.ReadLine();
+                TxtBxSobrenome.Text = Texto.ReadLine();
+                TxtBxSalario.Text = Texto.ReadLine();
+                Texto.Close();
+            }
+            else
+            {
+                MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
+            }
+        }
         private void SalvarColaborador()
         {
             ObjColaborador.Nome = TxtBxNome.Text;
@@ -86,18 +105,19 @@ namespace ControleHorasExtras
 
                 if (ItemSelecionado == null)
                 {
-                    if ((File.Exists(UrlAquivo)) && (!ValidaMensagem("Já Existe o registro " + ObjColaborador.Nome + " deseja apenas altera-lo?", "Valida Colaborador")))
+                    if (File.Exists(UrlAquivo))
                     {
+                        MessageBox.Show("Já Existe o registro " + ObjColaborador.Nome + ", utlize o direito Alterar");
                         this.Close();
                         this.FormTelaIicial.AtualizaListaColaboradores();
                     }
                     else { 
                                 Texto = File.CreateText(UrlAquivo);
                                 Texto.Close();
-                                AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
-                                AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
-                                AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
-                                if (ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
+                                if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
                                 {
                                     LimpaCampos();
                                 }
@@ -109,67 +129,13 @@ namespace ControleHorasExtras
                 }
                 else
                 {
-                    File.Delete(UrlAquivo);
-                    Texto = File.CreateText(UrlAquivo);
-                    Texto.Close();
-                    AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
-                    AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
-                    AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
                     MessageBox.Show("Registro " +ObjColaborador.Nome+ " alterado com sucesso!");
                     this.Close();
                     this.FormTelaIicial.AtualizaListaColaboradores();
                 }
-        }
-        private void AlteraArquivo(string UrlArquivo, string Conteudo)
-        {
-             StreamWriter Texto;
-
-             Texto = File.AppendText(UrlArquivo);
-             Texto.WriteLine(Conteudo);
-             Texto.Close();
-
-        }
-        private Boolean ValidaMensagem(string Mensagem, string Titulo)
-        {
-
-            {
-                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                DialogResult result;
-
-                // Displays the MessageBox.
-
-                result = MessageBox.Show(Mensagem, Titulo, buttons);
-
-                if (result == System.Windows.Forms.DialogResult.Yes)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
-            }
-
-        }
-
-        private void LerAquivo(string UrlDiretorio, string NomeArquivo)
-        {
-            StreamReader Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
-
-            if (File.Exists(UrlAquivo))
-            {
-                Texto = File.OpenText(UrlAquivo);
-                TxtBxNome.Text = Texto.ReadLine();
-                TxtBxSobrenome.Text = Texto.ReadLine();
-                TxtBxSalario.Text = Texto.ReadLine();
-                Texto.Close();
-            }
-            else
-            {
-                MessageBox.Show("Não existe o arquivo "+NomeArquivo+" no diretório "+ UrlDiretorio);
-            }
         }
 
             #endregion

@@ -16,7 +16,7 @@ namespace ControleHorasExtras
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TelaHorasExtras());
+            Application.Run(new TelaInicial());
         }
     }
 }

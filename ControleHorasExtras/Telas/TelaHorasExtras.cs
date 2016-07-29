@@ -92,9 +92,9 @@ namespace ControleHorasExtras
                     else { 
                                 Texto = File.CreateText(UrlAquivo);
                                 Texto.Close();
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
                                 if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
                                 {
                                     LimpaCampos();
@@ -110,9 +110,9 @@ namespace ControleHorasExtras
                     File.Delete(UrlAquivo);
                     Texto = File.CreateText(UrlAquivo);
                     Texto.Close();
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
                     MessageBox.Show("Registro " +ObjColaborador.Nome+ " alterado com sucesso!");
                     this.Close();
                     this.FormTelaIicial.AtualizaListaColaboradores();

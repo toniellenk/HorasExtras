@@ -23,28 +23,31 @@ namespace ControleHorasExtras
 
         private void ButAdicionar_Click(object sender, EventArgs e)
         {
-            Form Colaboradores = new TelaHorasExtras(this);
-            Colaboradores.ShowDialog();
+            switch (TipoGrid)
+            {
+                case "Colaborador":
+                    {
+                        Form Colaboradores = new TelaColaboradores(this);
+                        Colaboradores.ShowDialog(); 
+                        break;
+                    }
+                case "HorasExtras":
+                    {
+                        AtualizaListaColaboradores();
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+
         }
 
         private void MenuColaboradores_Click(object sender, EventArgs e)
         {
-            switch (TipoGrid) { 
-            case "Colaborador":
-                {
-                    AtualizaListaColaboradores();
-                    break;
-                }
-            case "HorasExtras":
-                {
-                    AtualizaListaColaboradores();
-                    break;
-                }
-            default: {
-                        break;
-                    } 
-            }
-
+            TipoGrid = "Colaborador";
+            AtualizaListaColaboradores();
         }
 
         #region Métodos
@@ -59,7 +62,7 @@ namespace ControleHorasExtras
         private void ButAlterar_Click(object sender, EventArgs e)
         {
             ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString();
-            Form Colaboradores = new TelaHorasExtras(ItemSelecionado, this);
+            Form Colaboradores = new TelaColaboradores(ItemSelecionado, this);
             Colaboradores.ShowDialog();
         }
 

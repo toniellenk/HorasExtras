@@ -10,15 +10,23 @@ namespace ControleHorasExtras
 {
     class Controles
     {
-        public static void AlteraArquivo(string UrlArquivo, string Conteudo)
+        public static void AlteraArquivo(string UrlArquivo, string Conteudo,bool LimpaTudo)
         {
-            StreamWriter Texto;
-
-            Texto = File.AppendText(UrlArquivo);
-            Texto.WriteLine(Conteudo);
-            Texto.Close();
+            if (LimpaTudo)
+            {
+                StreamWriter Texto = new StreamWriter(UrlArquivo, false);
+                Texto.WriteLine(Conteudo);
+                Texto.Close();
+            }
+            else 
+            {
+                StreamWriter Texto = new StreamWriter(UrlArquivo, true);
+                Texto.WriteLine(Conteudo);
+                Texto.Close();
+            }
 
         }
+
         public static Boolean ValidaMensagem(string Mensagem, string Titulo)
         {
 
