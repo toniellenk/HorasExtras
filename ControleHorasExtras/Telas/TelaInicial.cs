@@ -119,9 +119,11 @@ namespace ControleHorasExtras
                     }
                 case "HorasExtras":
                     {
-                        File.Delete(".\\Colaboradores\\" + ItemSelecionado + "\\Hora Extras\\" + ItemSelecionado + ".txt");
+                        ItemSelecionado = GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[2].Value.ToString();
+                        ItemSelecionado = ItemSelecionado.Replace("/", "").Replace(":", "").Trim();
+                        File.Delete(".\\Colaboradores\\" + GridPrincipal.CurrentRow.Cells[0].Value.ToString() + "\\Horas Extras\\" + ItemSelecionado + ".txt");
                         AtualizaListaHorasExtras();
-                        MessageBox.Show("Hora Extras excluídas com sucesso!");
+                        MessageBox.Show("Horas Extras excluídas com sucesso!");
                         break;
                     }
                 default:

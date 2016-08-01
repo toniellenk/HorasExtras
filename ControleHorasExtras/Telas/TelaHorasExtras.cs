@@ -15,6 +15,7 @@ namespace ControleHorasExtras
     {
         HorasExtras ObjHorasExtras = new HorasExtras();
         string NomeColaborador;
+        int TipoTela; // 1 - Novo, 2 - Alteração
         private TelaInicial FormTelaIicial;
         public TelaHorasExtras()
         {
@@ -30,9 +31,11 @@ namespace ControleHorasExtras
         public TelaHorasExtras(TelaInicial InstanciaTelaIicial)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
-            NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
+            NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString() +" "+ FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString();
             InitializeComponent();
             LabNomeColaborador.Text = NomeColaborador;
+            TipoTela = 1;
+
 
         }
         public TelaHorasExtras(string ItemSelecionado, TelaInicial InstanciaTelaIicial)
@@ -42,6 +45,7 @@ namespace ControleHorasExtras
             InitializeComponent();
             LabNomeColaborador.Text = NomeColaborador;
             LerAquivo(".\\Colaboradores\\" + NomeColaborador + "\\Horas Extras\\", ItemSelecionado + ".txt");
+            TipoTela = 2;
         }
         private void ButSalvar_Click(object sender, EventArgs e)
         {
@@ -82,13 +86,13 @@ namespace ControleHorasExtras
             StreamWriter Texto;
             string UrlAquivo = UrlDiretorio + NomeArquivo;
 
-            if (NomeColaborador != null)
+            if (NomeColaborador != null && TipoTela == 1)
             {
                 if (File.Exists(UrlAquivo))
                 {
                     MessageBox.Show("Já Existe o registro " + ObjHorasExtras.DataInicial + ", utlize o direito Alterar no menu Manutenção >> Horas Extras");
                     this.Close();
-                    this.FormTelaIicial.AtualizaListaColaboradores();
+                    this.FormTelaIicial.AtualizaListaHorasExtras();
                 }
                 else
                 {
@@ -104,7 +108,7 @@ namespace ControleHorasExtras
                     else
                     {
                         this.Close();
-                        this.FormTelaIicial.AtualizaListaColaboradores();
+                        this.FormTelaIicial.AtualizaListaHorasExtras();
                     }
                 }
             }
@@ -115,7 +119,7 @@ namespace ControleHorasExtras
                 Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataFinal, false);
                 MessageBox.Show("Registro " + ObjHorasExtras.DataInicial + " alterado com sucesso!");
                 this.Close();
-                this.FormTelaIicial.AtualizaListaColaboradores();
+                this.FormTelaIicial.AtualizaListaHorasExtras();
             }
         }
 
