@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ControleHorasExtras
 {
-    public partial class TelaColaboradores: Form
+    public partial class TelaColaboradores : Form
     {
         Colaborador ObjColaborador = new Colaborador();
         string ItemSelecionado;
@@ -31,15 +31,15 @@ namespace ControleHorasExtras
         {
             this.FormTelaIicial = InstanciaTelaIicial;
             InitializeComponent();
-            
+
         }
         public TelaColaboradores(string ItemSelecionado, TelaInicial InstanciaTelaIicial)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
             this.ItemSelecionado = ItemSelecionado;
             InitializeComponent();
-            Controles.LerAquivo(".\\Colaboradores\\"+ ItemSelecionado + "\\Dados\\", ItemSelecionado + ".txt");
-            
+            LerAquivo(".\\Colaboradores\\" + ItemSelecionado + "\\Dados\\", ItemSelecionado + ".txt");
+
         }
         private void ButSalvar_Click(object sender, EventArgs e)
         {
@@ -47,8 +47,9 @@ namespace ControleHorasExtras
             {
                 SalvarColaborador();
             }
-            catch (Exception ex){
-                MessageBox.Show(ex.Message);   
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -67,8 +68,8 @@ namespace ControleHorasExtras
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
             ObjColaborador.Salario = TxtBxSalario.Text;
 
-            Controles.CriaDiretorio(ObjColaborador.UrlDiretorio);
-            CriaArquivo(ObjColaborador.UrlDiretorio, "\\" + ObjColaborador.Nome + " " + ObjColaborador.Sobrenome + ".txt");
+            Controles.CriaDiretorio(ObjColaborador.UrlDiretorio());
+            CriaArquivo(ObjColaborador.UrlDiretorio(), "\\" + ObjColaborador.Nome + " " + ObjColaborador.Sobrenome + ".txt");
 
 
         }
@@ -79,42 +80,62 @@ namespace ControleHorasExtras
             StreamWriter Texto;
             string UrlAquivo = UrlDiretorio + NomeArquivo;
 
-                if (ItemSelecionado == null)
+            if (ItemSelecionado == null)
+            {
+                if (File.Exists(UrlAquivo))
                 {
-                    if (File.Exists(UrlAquivo))
-                    {
-                        MessageBox.Show("Já Existe o registro " + ObjColaborador.Nome + ", utlize o direito Alterar");
-                        this.Close();
-                        this.FormTelaIicial.AtualizaListaColaboradores();
-                    }
-                    else { 
-                                Texto = File.CreateText(UrlAquivo);
-                                Texto.Close();
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, false);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
-                                if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
-                                {
-                                    LimpaCampos();
-                                }
-                                else {
-                                    this.Close();
-                                    this.FormTelaIicial.AtualizaListaColaboradores();
-                                }
-                    }
-                }
-                else
-                {
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
-                    MessageBox.Show("Registro " +ObjColaborador.Nome+ " alterado com sucesso!");
+                    MessageBox.Show("Já Existe o registro " + ObjColaborador.Nome + ", utlize o direito Alterar");
                     this.Close();
                     this.FormTelaIicial.AtualizaListaColaboradores();
                 }
+                else {
+                    Texto = File.CreateText(UrlAquivo);
+                    Texto.Close();
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, false);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
+                    if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
+                    {
+                        LimpaCampos();
+                    }
+                    else {
+                        this.Close();
+                        this.FormTelaIicial.AtualizaListaColaboradores();
+                    }
+                }
+            }
+            else
+            {
+                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
+                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
+                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
+                MessageBox.Show("Registro " + ObjColaborador.Nome + " alterado com sucesso!");
+                this.Close();
+                this.FormTelaIicial.AtualizaListaColaboradores();
+            }
         }
 
-            #endregion
+        private void LerAquivo(string UrlDiretorio, string NomeArquivo)
+        {
+            StreamReader Texto;
+            string UrlAquivo = UrlDiretorio + NomeArquivo;
 
+            if (File.Exists(UrlAquivo))
+            {
+                Texto = File.OpenText(UrlAquivo);
+                TxtBxNome.Text = Texto.ReadLine();
+                TxtBxSobrenome.Text = Texto.ReadLine();
+                TxtBxSalario.Text = Texto.ReadLine();
+                Texto.Close();
+            }
+            else
+            {
+                MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
+            }
         }
+
+
+        #endregion
+
+    }
 }

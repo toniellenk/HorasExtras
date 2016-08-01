@@ -75,24 +75,34 @@ namespace ControleHorasExtras
 
         private void ButAlterar_Click(object sender, EventArgs e)
         {
-            switch (TipoGrid)
+            if (GridPrincipal.CurrentRow.Cells[0].Value.ToString().Trim() != "")
             {
-                case "Colaborador":
-                    {
-                        Form Colaboradores = new TelaColaboradores(ItemSelecionado, this);
-                        Colaboradores.ShowDialog();
-                        break;
-                    }
-                case "HorasExtras":
-                    {
-                        Form HorasExtras = new TelaHorasExtras(ItemSelecionado, this);
-                        HorasExtras.ShowDialog();
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                switch (TipoGrid)
+                {
+                    case "Colaborador":
+                        {
+                            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+                            Form Colaboradores = new TelaColaboradores(ItemSelecionado, this);
+                            Colaboradores.ShowDialog();
+                            break;
+                        }
+                    case "HorasExtras":
+                        {
+                            ItemSelecionado = GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[2].Value.ToString();
+                            ItemSelecionado = ItemSelecionado.Replace("/", "").Replace(":", "").Trim();
+                            Form HorasExtras = new TelaHorasExtras(ItemSelecionado, this);
+                            HorasExtras.ShowDialog();
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecione algum item na grade.");
             }
         }
 
@@ -122,29 +132,32 @@ namespace ControleHorasExtras
 
         }
 
-        private void Click_GridPrincipal(object sender, EventArgs e)
-        {
-            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
-        }
+        //private void Click_GridPrincipal(object sender, EventArgs e)
+        //{
+        //    ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+        //}
 
         #region Métodos
 
         public void AtualizaListaColaboradores() {
-            Colaborador ListaColaboradores = new Colaborador();
-            GridPrincipal.DataSource = ListaColaboradores.CarregaColaboradores();
+            GridPrincipal.DataSource = Colaborador.CarregaColaboradores();
         }
 
         public void AtualizaListaHorasExtras()
         {
-            HorasExtras ListaHorasExtras = new HorasExtras();
-            GridPrincipal.DataSource = ListaHorasExtras.CarregaHorasExtras();
+            GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras();
         }
+
+
+
+
+
         #endregion
 
-
-
-
-
-
+        private void ButHorasExtras_Click(object sender, EventArgs e)
+        {
+            TelaHorasExtras Tela = new TelaHorasExtras(this);
+            Tela.ShowDialog();
+        }
     }
 }

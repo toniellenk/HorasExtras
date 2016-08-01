@@ -13,13 +13,12 @@ namespace ControleHorasExtras
         public string Sobrenome { get; set; }
         public string Salario { get; set; }
 
-        public string UrlDiretorio {
-
-            get { return ".\\Colaboradores\\" + Nome + " " + Sobrenome + "\\Dados\\"; }
+        public string UrlDiretorio() {
+                return ".\\Colaboradores\\" + Nome + " " + Sobrenome + "\\Dados\\";
         }
 
 
-        public List<Colaborador> CarregaColaboradores()
+        public static List<Colaborador> CarregaColaboradores()
         {
 
                         DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\");
@@ -29,10 +28,9 @@ namespace ControleHorasExtras
 
                         foreach (DirectoryInfo Dir in ListaPastasDiretorioAtual)
                         {
-                            ListaPastasDiretorioAtual = Dir.GetDirectories();
+                            ListaPastasDiretorioAtual = Dir.GetDirectories("Dados");
                                 foreach (DirectoryInfo Dir2 in ListaPastasDiretorioAtual)
                                 {
-                                    ListaPastasDiretorioAtual = Dir2.GetDirectories();
                                         FileInfo[] NomesArquivos = Dir2.GetFiles("*.txt*");
                                         foreach (FileInfo fi in NomesArquivos)
                                             {
@@ -42,6 +40,7 @@ namespace ControleHorasExtras
                                                 ObjColaborador.Sobrenome = Texto.ReadLine();
                                                 ObjColaborador.Salario = Texto.ReadLine();
                                                 Texto.Close();
+                                               // ObjColaborador.UrlDiretorio = "";
                                                 ListaColaboradores.Add(ObjColaborador);
                                             }
                                  }   

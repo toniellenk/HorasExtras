@@ -59,24 +59,7 @@ namespace ControleHorasExtras
 
         }
 
-        public static void LerAquivo(string UrlDiretorio, string NomeArquivo)
-        {
-            StreamReader Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
-
-            if (File.Exists(UrlAquivo))
-            {
-                Texto = File.OpenText(UrlAquivo);
-                Texto.ReadLine();
-                Texto.ReadLine();
-                Texto.ReadLine();
-                Texto.Close();
-            }
-            else
-            {
-                MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
-            }
-        }
+        
 
     }
 }

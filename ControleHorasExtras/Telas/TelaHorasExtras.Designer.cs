@@ -29,14 +29,16 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.ButSalvar = new System.Windows.Forms.Button();
             this.TxBxDtaInicial = new System.Windows.Forms.MaskedTextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.TxBxDtaFinal = new System.Windows.Forms.MaskedTextBox();
+            this.ButSalvar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.LabNomeColaborador = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -49,6 +51,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data e Hora Inicial";
             // 
+            // TxBxDtaInicial
+            // 
+            this.TxBxDtaInicial.Location = new System.Drawing.Point(7, 13);
+            this.TxBxDtaInicial.Mask = "00/00/0000 90:00";
+            this.TxBxDtaInicial.Name = "TxBxDtaInicial";
+            this.TxBxDtaInicial.Size = new System.Drawing.Size(103, 20);
+            this.TxBxDtaInicial.TabIndex = 1;
+            this.TxBxDtaInicial.ValidatingType = typeof(System.DateTime);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.TxBxDtaFinal);
@@ -58,25 +69,6 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Data e Hora final";
-            // 
-            // ButSalvar
-            // 
-            this.ButSalvar.Location = new System.Drawing.Point(122, 202);
-            this.ButSalvar.Name = "ButSalvar";
-            this.ButSalvar.Size = new System.Drawing.Size(75, 23);
-            this.ButSalvar.TabIndex = 3;
-            this.ButSalvar.Text = "Salvar";
-            this.ButSalvar.UseVisualStyleBackColor = true;
-            this.ButSalvar.Click += new System.EventHandler(this.ButSalvar_Click);
-            // 
-            // TxBxDtaInicial
-            // 
-            this.TxBxDtaInicial.Location = new System.Drawing.Point(7, 13);
-            this.TxBxDtaInicial.Mask = "00/00/0000 90:00";
-            this.TxBxDtaInicial.Name = "TxBxDtaInicial";
-            this.TxBxDtaInicial.Size = new System.Drawing.Size(103, 20);
-            this.TxBxDtaInicial.TabIndex = 1;
-            this.TxBxDtaInicial.ValidatingType = typeof(System.DateTime);
             // 
             // TxBxDtaFinal
             // 
@@ -88,8 +80,19 @@
             this.TxBxDtaFinal.ValidatingType = typeof(System.DateTime);
             this.TxBxDtaFinal.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.maskedTextBox2_MaskInputRejected);
             // 
+            // ButSalvar
+            // 
+            this.ButSalvar.Location = new System.Drawing.Point(122, 202);
+            this.ButSalvar.Name = "ButSalvar";
+            this.ButSalvar.Size = new System.Drawing.Size(75, 23);
+            this.ButSalvar.TabIndex = 3;
+            this.ButSalvar.Text = "Salvar";
+            this.ButSalvar.UseVisualStyleBackColor = true;
+            this.ButSalvar.Click += new System.EventHandler(this.ButSalvar_Click);
+            // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.LabNomeColaborador);
             this.groupBox3.Location = new System.Drawing.Point(12, 32);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(296, 45);
@@ -101,6 +104,14 @@
             // 
             this.openFileDialog1.DefaultExt = "txt";
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // LabNomeColaborador
+            // 
+            this.LabNomeColaborador.AutoSize = true;
+            this.LabNomeColaborador.Location = new System.Drawing.Point(7, 20);
+            this.LabNomeColaborador.Name = "LabNomeColaborador";
+            this.LabNomeColaborador.Size = new System.Drawing.Size(0, 13);
+            this.LabNomeColaborador.TabIndex = 0;
             // 
             // TelaHorasExtras
             // 
@@ -122,6 +133,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -135,5 +148,6 @@
         private System.Windows.Forms.MaskedTextBox TxBxDtaFinal;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label LabNomeColaborador;
     }
 }
