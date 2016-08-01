@@ -27,6 +27,14 @@ namespace ControleHorasExtras
 
         }
 
+        public static void CriaDiretorio(string UrlDiretorio)
+        {
+            if (!Directory.Exists(UrlDiretorio))
+            {
+                Directory.CreateDirectory(UrlDiretorio);
+            }
+        }
+
         public static Boolean ValidaMensagem(string Mensagem, string Titulo)
         {
 

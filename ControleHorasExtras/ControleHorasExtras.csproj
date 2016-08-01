@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Colaborador.cs" />
     <Compile Include="Controles.cs" />
+    <Compile Include="HorasExtras.cs" />
     <Compile Include="Telas\TelaHorasExtras.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -96,6 +96,7 @@
             this.MenuHorasExtras.Name = "MenuHorasExtras";
             this.MenuHorasExtras.Size = new System.Drawing.Size(152, 22);
             this.MenuHorasExtras.Text = "Horas Extras";
+            this.MenuHorasExtras.Click += new System.EventHandler(this.MenuHorasExtras_Click);
             // 
             // GridPrincipal
             // 
@@ -121,6 +122,7 @@
             this.GridPrincipal.Size = new System.Drawing.Size(766, 337);
             this.GridPrincipal.StandardTab = true;
             this.GridPrincipal.TabIndex = 1;
+            this.GridPrincipal.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Click_GridPrincipal);
             // 
             // ButAdicionar
             // 

@@ -13,7 +13,7 @@ namespace ControleHorasExtras
 {
     public partial class TelaHorasExtras : Form
     {
-        Colaborador ObjColaborador = new Colaborador();
+        HorasExtras ObjHorasExtras = new HorasExtras();
         string ItemSelecionado;
         private TelaInicial FormTelaIicial;
         public TelaHorasExtras()
@@ -38,7 +38,7 @@ namespace ControleHorasExtras
             this.FormTelaIicial = InstanciaTelaIicial;
             this.ItemSelecionado = ItemSelecionado;
             InitializeComponent();
-            Controles.LerAquivo(Colaborador.UrlDiretorio, ItemSelecionado + ".txt");            
+            Controles.LerAquivo(".\\Colaboradores\\" + ItemSelecionado + "\\Dados\\", ItemSelecionado + ".txt");
         }
         private void ButSalvar_Click(object sender, EventArgs e)
         {
@@ -60,63 +60,64 @@ namespace ControleHorasExtras
         }
         private void SalvarHoras()
         {
-            ObjColaborador.Nome = "";
-            ObjColaborador.Sobrenome = "";
-            ObjColaborador.Salario = "";            
 
-            CriaDiretorio(Colaborador.UrlDiretorio);
-            CriaArquivo(Colaborador.UrlDiretorio, ObjColaborador.Nome + ".txt");
+
+            ObjHorasExtras.DataInicial = "";
+            ObjHorasExtras.HoraInicial = "";
+            ObjHorasExtras.DataFinal = "";
+            ObjHorasExtras.HoraFinal = "";
+
+
+            Controles.CriaDiretorio(HorasExtras.UrlDiretorio + ObjHorasExtras.DataInicial.Replace("/",""));
+            CriaArquivo(HorasExtras.UrlDiretorio, ObjHorasExtras.DataInicial + " " + ObjHorasExtras.HoraInicial + ".txt");
 
 
         }
 
-        private void CriaDiretorio(string UrlDiretorio){
-            if (!Directory.Exists(UrlDiretorio))
-            {
-                Directory.CreateDirectory(UrlDiretorio);
-            }
-        }
+
 
         private void CriaArquivo(string UrlDiretorio, string NomeArquivo)
         {
             StreamWriter Texto;
             string UrlAquivo = UrlDiretorio + NomeArquivo;
 
-                if (ItemSelecionado == null)
+            if (ItemSelecionado == null)
+            {
+                if (File.Exists(UrlAquivo))
                 {
-                    if ((File.Exists(UrlAquivo)) && (!Controles.ValidaMensagem("Já Existe o registro " + ObjColaborador.Nome + " deseja apenas altera-lo?", "Valida Colaborador")))
+                    MessageBox.Show("Já Existe o registro " + ObjHorasExtras.DataInicial + ", utlize o direito Alterar");
+                    this.Close();
+                    this.FormTelaIicial.AtualizaListaColaboradores();
+                }
+                else
+                {
+                    Texto = File.CreateText(UrlAquivo);
+                    Texto.Close();
+                    Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataInicial, false);
+                    Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.HoraInicial, false);
+                    Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataFinal, false);
+                    Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.HoraFinal, false);
+                    if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
+                    {
+                        LimpaCampos();
+                    }
+                    else
                     {
                         this.Close();
                         this.FormTelaIicial.AtualizaListaColaboradores();
                     }
-                    else { 
-                                Texto = File.CreateText(UrlAquivo);
-                                Texto.Close();
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
-                                if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
-                                {
-                                    LimpaCampos();
-                                }
-                                else {
-                                    this.Close();
-                                    this.FormTelaIicial.AtualizaListaColaboradores();
-                                }
-                    }
                 }
-                else
-                {
-                    File.Delete(UrlAquivo);
-                    Texto = File.CreateText(UrlAquivo);
-                    Texto.Close();
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
-                    MessageBox.Show("Registro " +ObjColaborador.Nome+ " alterado com sucesso!");
-                    this.Close();
-                    this.FormTelaIicial.AtualizaListaColaboradores();
-                }
+            }
+            else
+            {
+                Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataInicial, true);
+                Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.HoraInicial, false);
+                Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataFinal, false);
+                Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.HoraFinal, false);
+                MessageBox.Show("Registro " + ObjHorasExtras.DataInicial + " alterado com sucesso!");
+                this.Close();
+                this.FormTelaIicial.AtualizaListaColaboradores();
+            }
         }
 
         #endregion
@@ -141,10 +142,5 @@ namespace ControleHorasExtras
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            openFileDialog1.InitialDirectory = Colaborador.UrlDiretorio;
-            openFileDialog1.ShowDialog();
-        }
     }
 }

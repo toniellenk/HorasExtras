@@ -38,7 +38,7 @@ namespace ControleHorasExtras
             this.FormTelaIicial = InstanciaTelaIicial;
             this.ItemSelecionado = ItemSelecionado;
             InitializeComponent();
-            LerAquivo(Colaborador.UrlDiretorio, ItemSelecionado + ".txt");
+            Controles.LerAquivo(".\\Colaboradores\\"+ ItemSelecionado + "\\Dados\\", ItemSelecionado + ".txt");
             
         }
         private void ButSalvar_Click(object sender, EventArgs e)
@@ -61,42 +61,18 @@ namespace ControleHorasExtras
             TxtBxSalario.Clear();
         }
 
-        public void LerAquivo(string UrlDiretorio, string NomeArquivo)
-        {
-            StreamReader Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
-
-            if (File.Exists(UrlAquivo))
-            {
-                Texto = File.OpenText(UrlAquivo);
-                TxtBxNome.Text = Texto.ReadLine();
-                TxtBxSobrenome.Text = Texto.ReadLine();
-                TxtBxSalario.Text = Texto.ReadLine();
-                Texto.Close();
-            }
-            else
-            {
-                MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
-            }
-        }
         private void SalvarColaborador()
         {
             ObjColaborador.Nome = TxtBxNome.Text;
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
-            ObjColaborador.Salario = TxtBxSalario.Text;            
+            ObjColaborador.Salario = TxtBxSalario.Text;
 
-            CriaDiretorio(Colaborador.UrlDiretorio);
-            CriaArquivo(Colaborador.UrlDiretorio, ObjColaborador.Nome + ".txt");
+            Controles.CriaDiretorio(ObjColaborador.UrlDiretorio);
+            CriaArquivo(ObjColaborador.UrlDiretorio, "\\" + ObjColaborador.Nome + " " + ObjColaborador.Sobrenome + ".txt");
 
 
         }
 
-        private void CriaDiretorio(string UrlDiretorio){
-            if (!Directory.Exists(UrlDiretorio))
-            {
-                Directory.CreateDirectory(UrlDiretorio);
-            }
-        }
 
         private void CriaArquivo(string UrlDiretorio, string NomeArquivo)
         {
@@ -114,9 +90,9 @@ namespace ControleHorasExtras
                     else { 
                                 Texto = File.CreateText(UrlAquivo);
                                 Texto.Close();
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
-                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, false);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
+                                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
                                 if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
                                 {
                                     LimpaCampos();
@@ -130,8 +106,8 @@ namespace ControleHorasExtras
                 else
                 {
                     Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, true);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, true);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
+                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
                     MessageBox.Show("Registro " +ObjColaborador.Nome+ " alterado com sucesso!");
                     this.Close();
                     this.FormTelaIicial.AtualizaListaColaboradores();
