@@ -35,6 +35,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.TxtBxSalario = new System.Windows.Forms.TextBox();
             this.ButSalvar = new System.Windows.Forms.Button();
+            this.LabValor = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -90,6 +91,7 @@
             this.TxtBxSalario.Name = "TxtBxSalario";
             this.TxtBxSalario.Size = new System.Drawing.Size(87, 20);
             this.TxtBxSalario.TabIndex = 0;
+            this.TxtBxSalario.LostFocus += new System.EventHandler(this.TxtSalario_PercaFoco);
             // 
             // ButSalvar
             // 
@@ -101,11 +103,23 @@
             this.ButSalvar.UseVisualStyleBackColor = true;
             this.ButSalvar.Click += new System.EventHandler(this.ButSalvar_Click);
             // 
+            // LabValor
+            // 
+            this.LabValor.AutoSize = true;
+            this.LabValor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabValor.ForeColor = System.Drawing.Color.Red;
+            this.LabValor.Location = new System.Drawing.Point(161, 148);
+            this.LabValor.Name = "LabValor";
+            this.LabValor.Size = new System.Drawing.Size(0, 13);
+            this.LabValor.TabIndex = 4;
+            this.LabValor.Click += new System.EventHandler(this.LabValor_Click);
+            // 
             // TelaColaboradores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 266);
+            this.Controls.Add(this.LabValor);
             this.Controls.Add(this.ButSalvar);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -123,6 +137,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -133,7 +148,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox TxtBxSobrenome;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox TxtBxSalario;
         private System.Windows.Forms.Button ButSalvar;
+        private System.Windows.Forms.TextBox TxtBxSalario;
+        private System.Windows.Forms.Label LabValor;
     }
 }

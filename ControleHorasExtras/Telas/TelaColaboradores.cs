@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace ControleHorasExtras
 {
@@ -41,6 +42,14 @@ namespace ControleHorasExtras
             LerAquivo(".\\Colaboradores\\" + ItemSelecionado + "\\Dados\\", ItemSelecionado + ".txt");
 
         }
+        private void  TxtSalario_PercaFoco(object sender, EventArgs e)
+        {
+            if (TxtBxSalario.Text.Trim() != "") {
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
+                LabValor.Text = string.Format("{0:C}", Convert.ToDouble(TxtBxSalario.Text));
+            }
+        }
+
         private void ButSalvar_Click(object sender, EventArgs e)
         {
             try
@@ -66,7 +75,7 @@ namespace ControleHorasExtras
         {
             ObjColaborador.Nome = TxtBxNome.Text;
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
-            ObjColaborador.Salario = TxtBxSalario.Text;
+            ObjColaborador.Salario = LabValor.Text;
 
             Controles.CriaDiretorio(ObjColaborador.UrlDiretorio());
             CriaArquivo(ObjColaborador.UrlDiretorio(), "\\" + ObjColaborador.Nome + " " + ObjColaborador.Sobrenome + ".txt");
@@ -137,5 +146,9 @@ namespace ControleHorasExtras
 
         #endregion
 
+        private void LabValor_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

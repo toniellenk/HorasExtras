@@ -25,6 +25,7 @@ namespace ControleHorasExtras
 
         private void MenuColaboradores_Click(object sender, EventArgs e)
         {
+            ButAdicionar.Enabled = true;
             TipoGrid = "Colaborador";
             try
             {
@@ -38,6 +39,7 @@ namespace ControleHorasExtras
 
         private void MenuHorasExtras_Click(object sender, EventArgs e)
         {
+            ButAdicionar.Enabled = false;
             TipoGrid = "HorasExtras";
             try
             {
@@ -112,19 +114,28 @@ namespace ControleHorasExtras
             {
                 case "Colaborador":
                     {
-                        File.Delete(".\\Colaboradores\\" + ItemSelecionado + "\\Dados\\" + ItemSelecionado + ".txt");
-                        AtualizaListaColaboradores();
-                        MessageBox.Show("Colaborador excluído com sucesso!");
-                        break;
+                        try {
+                            ExcluirColaborador();
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Não foi possível excluir colaborador: " + ex);
+                            break;
+                        }
                     }
                 case "HorasExtras":
                     {
-                        ItemSelecionado = GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[2].Value.ToString();
-                        ItemSelecionado = ItemSelecionado.Replace("/", "").Replace(":", "").Trim();
-                        File.Delete(".\\Colaboradores\\" + GridPrincipal.CurrentRow.Cells[0].Value.ToString() + "\\Horas Extras\\" + ItemSelecionado + ".txt");
-                        AtualizaListaHorasExtras();
-                        MessageBox.Show("Horas Extras excluídas com sucesso!");
-                        break;
+                        try
+                        {
+                            ExcluirHoraExtra();
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Não foi possível excluir Hora Extra: " + ex);
+                            break;
+                        }
                     }
                 default:
                     {
@@ -142,7 +153,19 @@ namespace ControleHorasExtras
         #region Métodos
 
         public void AtualizaListaColaboradores() {
+            decimal total;
+            string ValorAtual;
+            total = 0;
+            LabTotal.Text = "Total da folha: ";
             GridPrincipal.DataSource = Colaborador.CarregaColaboradores();
+            for (int i = 0; i <= GridPrincipal.Rows.Count-1 ; i++)
+            {
+                ValorAtual = Convert.ToString(GridPrincipal.Rows[i].Cells[2].Value);
+                ValorAtual = ValorAtual.Replace("R$","").Replace(".", "").Trim();
+                total = total + Convert.ToDecimal(ValorAtual);
+            }
+            LabValorTotal.Text = total.ToString();
+
         }
 
         public void AtualizaListaHorasExtras()
@@ -150,6 +173,43 @@ namespace ControleHorasExtras
             GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras();
         }
 
+        private void ExcluirHoraExtra()
+        {
+            ItemSelecionado = GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[2].Value.ToString();
+            ItemSelecionado = ItemSelecionado.Replace("/", "").Replace(":", "").Trim();
+            File.Delete(".\\Colaboradores\\" + GridPrincipal.CurrentRow.Cells[0].Value.ToString() + "\\Horas Extras\\" + ItemSelecionado + ".txt");
+            AtualizaListaHorasExtras();
+            MessageBox.Show("Horas Extras excluídas com sucesso!");
+        }
+        private void ExcluirColaborador()
+        {
+            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+            if (Directory.Exists(".\\Colaboradores\\" + ItemSelecionado + "\\Horas Extras\\"))
+            {
+                if (Directory.EnumerateFileSystemEntries(".\\Colaboradores\\" + ItemSelecionado + "\\Horas Extras\\", "*.txt").Any())
+                {
+                    if (Controles.ValidaMensagem("Este colaborador possui horas extras lançadas, deseja excluir mesmo assim?", "Exclusão de Colaborador"))
+                    {
+
+                        Directory.Delete(".\\Colaboradores\\" + ItemSelecionado, true);
+                        AtualizaListaColaboradores();
+                        MessageBox.Show("Colaborador excluído com sucesso!");
+                    }
+                }
+                else
+                {
+                    Directory.Delete(".\\Colaboradores\\" + ItemSelecionado, true);
+                    AtualizaListaColaboradores();
+                    MessageBox.Show("Colaborador excluído com sucesso!");
+                }
+            }
+            else
+            {
+                Directory.Delete(".\\Colaboradores\\" + ItemSelecionado, true);
+                AtualizaListaColaboradores();
+                MessageBox.Show("Colaborador excluído com sucesso!");
+            }
+        }
 
 
 

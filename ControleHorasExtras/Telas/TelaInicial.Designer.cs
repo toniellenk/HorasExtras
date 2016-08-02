@@ -38,6 +38,8 @@
             this.ButAlterar = new System.Windows.Forms.Button();
             this.ButRemover = new System.Windows.Forms.Button();
             this.ButHorasExtras = new System.Windows.Forms.Button();
+            this.LabTotal = new System.Windows.Forms.Label();
+            this.LabValorTotal = new System.Windows.Forms.Label();
             this.MenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridPrincipal)).BeginInit();
             this.SuspendLayout();
@@ -122,7 +124,6 @@
             this.GridPrincipal.Size = new System.Drawing.Size(766, 337);
             this.GridPrincipal.StandardTab = true;
             this.GridPrincipal.TabIndex = 1;
-        //    this.GridPrincipal.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.Click_GridPrincipal);
             // 
             // ButAdicionar
             // 
@@ -164,11 +165,34 @@
             this.ButHorasExtras.UseVisualStyleBackColor = true;
             this.ButHorasExtras.Click += new System.EventHandler(this.ButHorasExtras_Click);
             // 
+            // LabTotal
+            // 
+            this.LabTotal.AutoSize = true;
+            this.LabTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabTotal.ForeColor = System.Drawing.Color.Blue;
+            this.LabTotal.Location = new System.Drawing.Point(698, 472);
+            this.LabTotal.Name = "LabTotal";
+            this.LabTotal.Size = new System.Drawing.Size(93, 13);
+            this.LabTotal.TabIndex = 6;
+            this.LabTotal.Text = "Total da Folha:";
+            // 
+            // LabValorTotal
+            // 
+            this.LabValorTotal.AutoSize = true;
+            this.LabValorTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabValorTotal.ForeColor = System.Drawing.Color.Red;
+            this.LabValorTotal.Location = new System.Drawing.Point(797, 472);
+            this.LabValorTotal.Name = "LabValorTotal";
+            this.LabValorTotal.Size = new System.Drawing.Size(0, 13);
+            this.LabValorTotal.TabIndex = 7;
+            // 
             // TelaInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.LabValorTotal);
+            this.Controls.Add(this.LabTotal);
             this.Controls.Add(this.ButHorasExtras);
             this.Controls.Add(this.ButRemover);
             this.Controls.Add(this.ButAlterar);
@@ -198,6 +222,8 @@
         private System.Windows.Forms.Button ButAlterar;
         private System.Windows.Forms.Button ButRemover;
         private System.Windows.Forms.Button ButHorasExtras;
+        private System.Windows.Forms.Label LabTotal;
+        private System.Windows.Forms.Label LabValorTotal;
     }
 }
 
