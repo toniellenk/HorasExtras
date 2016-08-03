@@ -17,6 +17,7 @@ namespace ControleHorasExtras
         string NomeColaborador;
         int TipoTela; // 1 - Novo, 2 - Alteração
         private TelaInicial FormTelaIicial;
+        string CacheDataHoraIcial;
         public TelaHorasExtras()
         {
             InitializeComponent();
@@ -45,7 +46,9 @@ namespace ControleHorasExtras
             InitializeComponent();
             LabNomeColaborador.Text = NomeColaborador;
             LerAquivo(".\\Colaboradores\\" + NomeColaborador + "\\Horas Extras\\", ItemSelecionado + ".txt");
+            CacheDataHoraIcial = TxBxDtaInicial.Text;
             TipoTela = 2;
+
         }
         private void ButSalvar_Click(object sender, EventArgs e)
         {
@@ -73,9 +76,14 @@ namespace ControleHorasExtras
             ObjHorasExtras.DataFinal = TxBxDtaFinal.Text;
             string DiretorioPadrao = HorasExtras.UrlDiretorio() + NomeColaborador + "\\Horas Extras\\";
 
-            Controles.CriaDiretorio(DiretorioPadrao);
-            CriaArquivo(DiretorioPadrao, ObjHorasExtras.DataInicial.Replace("/", "").Replace(":","") + ".txt");
 
+            Controles.CriaDiretorio(DiretorioPadrao);
+            if (TipoTela == 2)
+            {
+                  CacheDataHoraIcial = DiretorioPadrao + CacheDataHoraIcial.Replace("/", "").Replace(":", "") + ".txt";
+            }
+
+            CriaArquivo(DiretorioPadrao, ObjHorasExtras.DataInicial.Replace("/", "").Replace(":", "") + ".txt");
 
         }
 
@@ -114,6 +122,9 @@ namespace ControleHorasExtras
             }
             else
             {
+                File.Delete(CacheDataHoraIcial);
+                Texto = File.CreateText(UrlAquivo);
+                Texto.Close();
                 Controles.AlteraArquivo(UrlAquivo, NomeColaborador, true);
                 Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataInicial, false);
                 Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataFinal, false);

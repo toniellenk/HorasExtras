@@ -58,6 +58,36 @@ namespace ControleHorasExtras
             return ListaHorasExtras;
 
         }
+        public static List<HorasExtras> CarregaHorasExtras(string NomeColaborador)
+        {
+
+            DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\"+ NomeColaborador +"\\Horas Extras\\");
+            DirectoryInfo[] ListaPastasDiretorioAtual = DiretorioInicial.GetDirectories();
+            string DataHoraInicial;
+            string DataHoraFinal;
+            var ListaHorasExtras = new List<HorasExtras>();
+
+
+            FileInfo[] NomesArquivos = DiretorioInicial.GetFiles("*.txt*");
+                    foreach (FileInfo fi in NomesArquivos)
+                    {
+                        HorasExtras ObjHorasExtras = new HorasExtras();
+                        StreamReader Texto = new StreamReader(".\\Colaboradores\\"+ NomeColaborador +"\\Horas Extras\\" + fi.Name);
+                        ObjHorasExtras.NomeColaborador = Texto.ReadLine();
+                        DataHoraInicial = Texto.ReadLine();
+                        DataHoraFinal = Texto.ReadLine();
+                        ObjHorasExtras.DataInicial = DataHoraInicial.Trim().Substring(0, 10);
+                        ObjHorasExtras.HoraInicial = DataHoraInicial.Trim().Substring(11, 5);
+                        ObjHorasExtras.DataFinal = DataHoraFinal.Trim().Substring(0, 10);
+                        ObjHorasExtras.HoraFinal = DataHoraFinal.Trim().Substring(11, 5);
+                        Texto.Close();
+                        ListaHorasExtras.Add(ObjHorasExtras);
+
+                    }
+            return ListaHorasExtras;
+
+        }
+
 
     }
 }

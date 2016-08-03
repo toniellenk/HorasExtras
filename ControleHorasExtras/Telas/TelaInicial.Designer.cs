@@ -40,6 +40,7 @@
             this.ButHorasExtras = new System.Windows.Forms.Button();
             this.LabTotal = new System.Windows.Forms.Label();
             this.LabValorTotal = new System.Windows.Forms.Label();
+            this.ComboBoxColaborador = new System.Windows.Forms.ComboBox();
             this.MenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridPrincipal)).BeginInit();
             this.SuspendLayout();
@@ -175,6 +176,7 @@
             this.LabTotal.Size = new System.Drawing.Size(93, 13);
             this.LabTotal.TabIndex = 6;
             this.LabTotal.Text = "Total da Folha:";
+            this.LabTotal.Click += new System.EventHandler(this.LabTotal_Click);
             // 
             // LabValorTotal
             // 
@@ -186,11 +188,22 @@
             this.LabValorTotal.Size = new System.Drawing.Size(0, 13);
             this.LabValorTotal.TabIndex = 7;
             // 
+            // ComboBoxColaborador
+            // 
+            this.ComboBoxColaborador.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ComboBoxColaborador.FormattingEnabled = true;
+            this.ComboBoxColaborador.Location = new System.Drawing.Point(102, 83);
+            this.ComboBoxColaborador.Name = "ComboBoxColaborador";
+            this.ComboBoxColaborador.Size = new System.Drawing.Size(288, 21);
+            this.ComboBoxColaborador.TabIndex = 8;
+            this.ComboBoxColaborador.TextChanged += new System.EventHandler(this.ComboBoxColaborador_AlteraValor);
+            // 
             // TelaInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.ComboBoxColaborador);
             this.Controls.Add(this.LabValorTotal);
             this.Controls.Add(this.LabTotal);
             this.Controls.Add(this.ButHorasExtras);
@@ -224,6 +237,7 @@
         private System.Windows.Forms.Button ButHorasExtras;
         private System.Windows.Forms.Label LabTotal;
         private System.Windows.Forms.Label LabValorTotal;
+        private System.Windows.Forms.ComboBox ComboBoxColaborador;
     }
 }
 

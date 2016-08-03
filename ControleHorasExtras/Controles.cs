@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace ControleHorasExtras
 {
     class Controles
     {
-        public static void AlteraArquivo(string UrlArquivo, string Conteudo,bool LimpaTudo)
+        public static void AlteraArquivo(string UrlArquivo, string Conteudo, bool LimpaTudo)
         {
             if (LimpaTudo)
             {
@@ -18,7 +19,7 @@ namespace ControleHorasExtras
                 Texto.WriteLine(Conteudo);
                 Texto.Close();
             }
-            else 
+            else
             {
                 StreamWriter Texto = new StreamWriter(UrlArquivo, true);
                 Texto.WriteLine(Conteudo);
@@ -59,7 +60,34 @@ namespace ControleHorasExtras
 
         }
 
-        
+        public static Boolean ExisteHorasExtras(string ItemSelecionado)
+        {
 
+            if (Directory.Exists(".\\Colaboradores\\" + ItemSelecionado + "\\Horas Extras\\"))
+            {
+                if (Directory.EnumerateFileSystemEntries(".\\Colaboradores\\" + ItemSelecionado + "\\Horas Extras\\", "*.txt").Any())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static string ConverteMoeda(string Valor)
+        {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
+            Valor = string.Format("{0:C}", Convert.ToDouble(Valor));
+            return Valor;
+        }
     }
+
+
+    
 }

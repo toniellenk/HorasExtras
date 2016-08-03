@@ -40,12 +40,37 @@ namespace ControleHorasExtras
                                                 ObjColaborador.Sobrenome = Texto.ReadLine();
                                                 ObjColaborador.Salario = Texto.ReadLine();
                                                 Texto.Close();
-                                               // ObjColaborador.UrlDiretorio = "";
                                                 ListaColaboradores.Add(ObjColaborador);
                                             }
                                  }   
             }
                         return ListaColaboradores;
+
+        }
+
+        public static List<string> CarregaColaboradoresSomenteNomes()
+        {
+
+            DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\");
+            DirectoryInfo[] ListaPastasDiretorioAtual = DiretorioInicial.GetDirectories();
+            var ListaColaboradores = new List<string>();
+            ListaColaboradores.Add("Todos");
+
+            foreach (DirectoryInfo Dir in ListaPastasDiretorioAtual)
+            {
+                ListaPastasDiretorioAtual = Dir.GetDirectories("Dados");
+                foreach (DirectoryInfo Dir2 in ListaPastasDiretorioAtual)
+                {
+                    FileInfo[] NomesArquivos = Dir2.GetFiles("*.txt*");
+                    foreach (FileInfo fi in NomesArquivos)
+                    {
+                        StreamReader Texto = new StreamReader(".\\Colaboradores\\" + Dir.Name + "\\" + Dir2.Name + "\\" + fi.Name);
+                        ListaColaboradores.Add(Texto.ReadLine() +" "+ Texto.ReadLine());
+                        Texto.Close();
+                    }
+                }
+            }
+            return ListaColaboradores;
 
         }
 

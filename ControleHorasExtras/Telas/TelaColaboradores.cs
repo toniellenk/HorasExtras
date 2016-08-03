@@ -44,9 +44,9 @@ namespace ControleHorasExtras
         }
         private void  TxtSalario_PercaFoco(object sender, EventArgs e)
         {
-            if (TxtBxSalario.Text.Trim() != "") {
-                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
-                LabValor.Text = string.Format("{0:C}", Convert.ToDouble(TxtBxSalario.Text));
+            if (TxtBxSalario.Text.Trim() != "")
+            {
+                LabValor.Text = Controles.ConverteMoeda(TxtBxSalario.Text);
             }
         }
 
