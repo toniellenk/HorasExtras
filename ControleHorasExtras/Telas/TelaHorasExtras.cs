@@ -26,13 +26,31 @@ namespace ControleHorasExtras
         public TelaHorasExtras(string ItemSelecionado)
         {
             this.NomeColaborador = ItemSelecionado;
-            InitializeComponent();
+            InitializeComponent();            
 
         }
         public TelaHorasExtras(TelaInicial InstanciaTelaIicial)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
-            NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString() +" "+ FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+            
+            switch (FormTelaIicial.TipoGrid)
+            {
+                case "Colaborador":
+                    {
+                        NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+                        break;
+                    }
+                case "HorasExtras":
+                    {
+                        NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+
             InitializeComponent();
             LabNomeColaborador.Text = NomeColaborador;
             TipoTela = 1;

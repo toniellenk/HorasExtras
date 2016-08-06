@@ -160,9 +160,9 @@
             // 
             this.ButHorasExtras.Location = new System.Drawing.Point(345, 467);
             this.ButHorasExtras.Name = "ButHorasExtras";
-            this.ButHorasExtras.Size = new System.Drawing.Size(75, 23);
+            this.ButHorasExtras.Size = new System.Drawing.Size(122, 23);
             this.ButHorasExtras.TabIndex = 5;
-            this.ButHorasExtras.Text = "Horas Extras";
+            this.ButHorasExtras.Text = "Adicionar Horas Extras";
             this.ButHorasExtras.UseVisualStyleBackColor = true;
             this.ButHorasExtras.Click += new System.EventHandler(this.ButHorasExtras_Click);
             // 

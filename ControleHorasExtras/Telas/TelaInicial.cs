@@ -14,20 +14,35 @@ namespace ControleHorasExtras
     public partial class TelaInicial : Form
     {
         string ItemSelecionado;
-        string TipoGrid;
+        public string TipoGrid;
 
         public TelaInicial()
         {
             InitializeComponent();
             ComboBoxColaborador.Visible = false;
+            GridPrincipal.Enabled = false;
+            ButAdicionar.Enabled = false;
+            ButAlterar.Enabled = false;
+            ButRemover.Enabled = false;
+            ButHorasExtras.Enabled = false;
+            LabTotal.Enabled = false;
+            LabValorTotal.Enabled = false;
+            Controles teste = new Controles();
+            teste.LerArquivo(".\\Dados\\Colaboradores.txt");
         }
 
 
 
         private void MenuColaboradores_Click(object sender, EventArgs e)
         {
-            ButAdicionar.Enabled = true;
             ComboBoxColaborador.Visible = false;
+            GridPrincipal.Enabled = true;
+            ButAdicionar.Enabled = true;
+            ButAlterar.Enabled = true;
+            ButRemover.Enabled = true;
+            ButHorasExtras.Enabled = true;
+            LabTotal.Enabled = true;
+            LabValorTotal.Enabled = true;
             LabTotal.Text = "Total da folha: ";
             TipoGrid = "Colaborador";
             try
@@ -42,8 +57,14 @@ namespace ControleHorasExtras
 
         private void MenuHorasExtras_Click(object sender, EventArgs e)
         {
-            ButAdicionar.Enabled = false;
             ComboBoxColaborador.Visible = true;
+            GridPrincipal.Enabled = true;
+            ButAdicionar.Enabled = false;
+            ButAlterar.Enabled = true;
+            ButRemover.Enabled = true;
+            ButHorasExtras.Enabled = true;
+            LabTotal.Enabled = true;
+            LabValorTotal.Enabled = true;
             LabTotal.Text = "Total de Horas: ";
             TipoGrid = "HorasExtras";
             try
@@ -244,7 +265,9 @@ namespace ControleHorasExtras
             DateTime Data1;
             DateTime Data2;
             TimeSpan Direrenca;
-            string TotalFinal;
+            string StringFinal;
+            TimeSpan TotalFinalHoras;
+            double TotalFinalMinutos;
             double totalminutos = 0;
             for (int i = 0; i <= GridPrincipal.Rows.Count - 1; i++)
             {
@@ -252,15 +275,14 @@ namespace ControleHorasExtras
                 Data2 = DateTime.Parse(Convert.ToString(GridPrincipal.Rows[i].Cells[3].Value) +" "+ Convert.ToString(GridPrincipal.Rows[i].Cells[4].Value));
                 Direrenca = Data2.Subtract(Data1);
 
-                //int totalMinutes = 78;
-                //int hours = totalMinutes / 60;
-                //int minutes = totalMinutes % 60;
-                //System.out.printf("%d:%02d", hours, minutes);
-
                 totalminutos = totalminutos + Direrenca.TotalMinutes;
+
             }
-            //TotalFinal = (totalminutos / 60).ToString("N2").Substring(1,2);
-            LabValorTotal.Text = (Convert.ToDecimal(totalminutos / 60)).ToString("N2").Replace(",", ":");
+            TotalFinalHoras = TimeSpan.FromMinutes(totalminutos);
+            TotalFinalMinutos = (totalminutos % 60) ;
+
+            StringFinal = (TotalFinalHoras.Hours.ToString() + ":" + string.Format("{0:0,#}",Convert.ToDecimal(TotalFinalMinutos)));
+            LabValorTotal.Text = StringFinal;
         }
 
         #endregion

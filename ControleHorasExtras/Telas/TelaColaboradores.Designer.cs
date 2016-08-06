@@ -112,7 +112,7 @@
             this.LabValor.Name = "LabValor";
             this.LabValor.Size = new System.Drawing.Size(0, 13);
             this.LabValor.TabIndex = 4;
-            this.LabValor.Click += new System.EventHandler(this.LabValor_Click);
+       //     this.LabValor.Click += new System.EventHandler(this.LabValor_Click);
             // 
             // TelaColaboradores
             // 

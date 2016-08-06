@@ -17,6 +17,7 @@ namespace ControleHorasExtras
         Colaborador ObjColaborador = new Colaborador();
         string ItemSelecionado;
         private TelaInicial FormTelaIicial;
+        public DataTable DtColaborador = new DataTable();
         public TelaColaboradores()
         {
             InitializeComponent();
@@ -39,7 +40,7 @@ namespace ControleHorasExtras
             this.FormTelaIicial = InstanciaTelaIicial;
             this.ItemSelecionado = ItemSelecionado;
             InitializeComponent();
-            LerAquivo(".\\Colaboradores\\" + ItemSelecionado + "\\Dados\\", ItemSelecionado + ".txt");
+       //     LerArquivo(ObjColaborador.UrlDiretorio);
 
         }
         private void  TxtSalario_PercaFoco(object sender, EventArgs e)
@@ -78,31 +79,28 @@ namespace ControleHorasExtras
             ObjColaborador.Salario = LabValor.Text;
 
             Controles.CriaDiretorio(ObjColaborador.UrlDiretorio());
-            CriaArquivo(ObjColaborador.UrlDiretorio(), "\\" + ObjColaborador.Nome + " " + ObjColaborador.Sobrenome + ".txt");
+            CriaArquivo(ObjColaborador.UrlDiretorio());
 
 
         }
 
 
-        private void CriaArquivo(string UrlDiretorio, string NomeArquivo)
+        private void CriaArquivo(string UrlArquivo)
         {
             StreamWriter Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
 
-            if (ItemSelecionado == null)
-            {
-                if (File.Exists(UrlAquivo))
+                if (File.Exists(UrlArquivo))
                 {
-                    MessageBox.Show("Já Existe o registro " + ObjColaborador.Nome + ", utlize o direito Alterar");
+                    
                     this.Close();
                     this.FormTelaIicial.AtualizaListaColaboradores();
                 }
                 else {
-                    Texto = File.CreateText(UrlAquivo);
+                    Texto = File.CreateText(UrlArquivo);
                     Texto.Close();
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, false);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
-                    Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
+                    Controles.AlteraArquivo(UrlArquivo, ObjColaborador.Nome, false);
+                    Controles.AlteraArquivo(UrlArquivo, ObjColaborador.Sobrenome, false);
+                    Controles.AlteraArquivo(UrlArquivo, ObjColaborador.Salario, false);
                     if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
                     {
                         LimpaCampos();
@@ -113,42 +111,33 @@ namespace ControleHorasExtras
                     }
                 }
             }
-            else
-            {
-                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Nome, true);
-                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Sobrenome, false);
-                Controles.AlteraArquivo(UrlAquivo, ObjColaborador.Salario, false);
-                MessageBox.Show("Registro " + ObjColaborador.Nome + " alterado com sucesso!");
-                this.Close();
-                this.FormTelaIicial.AtualizaListaColaboradores();
-            }
         }
 
-        private void LerAquivo(string UrlDiretorio, string NomeArquivo)
-        {
-            StreamReader Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
-
-            if (File.Exists(UrlAquivo))
-            {
-                Texto = File.OpenText(UrlAquivo);
-                TxtBxNome.Text = Texto.ReadLine();
-                TxtBxSobrenome.Text = Texto.ReadLine();
-                TxtBxSalario.Text = Texto.ReadLine();
-                Texto.Close();
-            }
-            else
-            {
-                MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
-            }
-        }
+    //    public DataTable LerArquivo(string UrlText)
+    //    {
+    //        StreamReader Texto;
+    //        DtColaborador. = "dsad";
+        //if (File.Exists(UrlText))
+        //    {
+        //        Texto = File.OpenText(UrlText);               
+        //        Texto.Close();
+               
+                
+        // }
+    //        else
+    //        {
+    //        //    MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
+    //        }
+    //    return DtColaborador;
+    //}
 
 
         #endregion
 
-        private void LabValor_Click(object sender, EventArgs e)
-        {
+        //private void LabValor_Click(object sender, EventArgs e)
+        //{
 
-        }
+        //}
     }
-}
+
+

@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Data;
+
 
 namespace ControleHorasExtras
 {
     class Controles
     {
+        DataTable DtDados = new DataTable();
         public static void AlteraArquivo(string UrlArquivo, string Conteudo, bool LimpaTudo)
         {
             if (LimpaTudo)
@@ -34,6 +37,7 @@ namespace ControleHorasExtras
             {
                 Directory.CreateDirectory(UrlDiretorio);
             }
+
         }
 
         public static Boolean ValidaMensagem(string Mensagem, string Titulo)
@@ -86,6 +90,34 @@ namespace ControleHorasExtras
             Valor = string.Format("{0:C}", Convert.ToDouble(Valor));
             return Valor;
         }
+
+        public List<List<string>> LerArquivo(string Url)
+        {
+            var linhas = new List<List<string>>();          
+           
+            try { 
+                using (StreamReader sr = new StreamReader(Url))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        var linha = new List<string>();
+                        var valorLinha = line.Split('|');
+                        for (int indice = 0; indice <= valorLinha.Length - 1; indice++)
+                        {
+                            linha.Add(valorLinha[indice]);
+                        }
+                        linhas.Add(linha);
+                    }
+                }
+                return linhas;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return null;
+            }
+        }        
     }
 
 

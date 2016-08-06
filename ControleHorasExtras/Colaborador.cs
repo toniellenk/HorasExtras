@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Data;
 
 namespace ControleHorasExtras
 {
     public class Colaborador
     {
+                public string IdColaborador { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string Salario { get; set; }
 
         public string UrlDiretorio() {
-                return ".\\Colaboradores\\" + Nome + " " + Sobrenome + "\\Dados\\";
+                return ".\\Dados\\Colaboradores.txt";
         }
 
 
@@ -73,6 +75,7 @@ namespace ControleHorasExtras
             return ListaColaboradores;
 
         }
+
 
     }
 }
