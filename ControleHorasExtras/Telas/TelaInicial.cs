@@ -15,20 +15,19 @@ namespace ControleHorasExtras
     {
         string ItemSelecionado;
         public string TipoGrid;
+        public List<List<string>> ListagemColaborador = Controles.LerArquivo(Colaborador.UrlDiretorio);
 
         public TelaInicial()
         {
             InitializeComponent();
             ComboBoxColaborador.Visible = false;
-            GridPrincipal.Enabled = false;
+            GridPrincipal.Enabled = true;
             ButAdicionar.Enabled = false;
             ButAlterar.Enabled = false;
             ButRemover.Enabled = false;
             ButHorasExtras.Enabled = false;
             LabTotal.Enabled = false;
             LabValorTotal.Enabled = false;
-            Controles teste = new Controles();
-            teste.LerArquivo(".\\Dados\\Colaboradores.txt");
         }
 
 
@@ -103,6 +102,7 @@ namespace ControleHorasExtras
 
         private void ComboBoxColaborador_AlteraValor(object sender, EventArgs e)
         {
+            string ColaboradorSelecionado = ComboBoxColaborador.SelectedItem.ToString();
             switch (TipoGrid)
             {
                 case "Colaborador":
@@ -111,16 +111,10 @@ namespace ControleHorasExtras
                     }
                 case "HorasExtras":
                     {
-                        if (ComboBoxColaborador.SelectedItem.ToString() != "" && ComboBoxColaborador.SelectedItem.ToString() != "Todos")
+                        if (ColaboradorSelecionado != "" && ColaboradorSelecionado != "TODOS")
                         {
-                            if (Controles.ExisteHorasExtras(ComboBoxColaborador.SelectedItem.ToString()))
-                            {
-                                GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ComboBoxColaborador.SelectedItem.ToString());
-                            }
-                            else
-                            {
-                                MessageBox.Show("O colaborador "+ ComboBoxColaborador.SelectedItem.ToString()  + " não possui horas extras!");
-                            }
+                                var valorLinha = ColaboradorSelecionado.Split('-');
+                                GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemColaborador, valorLinha[0].Trim());
                         }
                         else
                         {
@@ -215,24 +209,16 @@ namespace ControleHorasExtras
         #region Métodos
 
         public void AtualizaListaColaboradores() {
-            decimal total;
-            string ValorAtual;
-            total = 0;
-            GridPrincipal.DataSource = Colaborador.CarregaColaboradores();
-            for (int i = 0; i <= GridPrincipal.Rows.Count-1 ; i++)
-            {
-                ValorAtual = Convert.ToString(GridPrincipal.Rows[i].Cells[2].Value);
-                ValorAtual = ValorAtual.Replace("R$","").Trim();
-                total = total + Convert.ToDecimal(ValorAtual);
-            }
-            LabValorTotal.Text = Controles.ConverteMoeda(total.ToString());
-
+            GridPrincipal.DataSource = Colaborador.CarregaColaboradores(ListagemColaborador);
+            LabValorTotal.Text = Controles.ConverteMoeda(Colaborador.SalarioTotal(ListagemColaborador).ToString());
         }
 
         public void AtualizaListaHorasExtras()
         {
-            GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras();
-            ComboBoxColaborador.DataSource = Colaborador.CarregaColaboradoresSomenteNomes();
+            GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemColaborador);     
+            List<string> ListaColaboradores = Colaborador.CarregaColaboradoresSomenteIDeNomes(ListagemColaborador);
+            ListaColaboradores.Insert(0, "TODOS");
+            ComboBoxColaborador.DataSource = ListaColaboradores;
             TotalizaHoras();
         }
 
@@ -271,8 +257,8 @@ namespace ControleHorasExtras
             double totalminutos = 0;
             for (int i = 0; i <= GridPrincipal.Rows.Count - 1; i++)
             {
-                Data1 = DateTime.Parse(Convert.ToString(GridPrincipal.Rows[i].Cells[1].Value) +" "+ Convert.ToString(GridPrincipal.Rows[i].Cells[2].Value));
-                Data2 = DateTime.Parse(Convert.ToString(GridPrincipal.Rows[i].Cells[3].Value) +" "+ Convert.ToString(GridPrincipal.Rows[i].Cells[4].Value));
+                Data1 = DateTime.Parse(Convert.ToString(GridPrincipal.Rows[i].Cells[3].Value) +" "+ Convert.ToString(GridPrincipal.Rows[i].Cells[4].Value));
+                Data2 = DateTime.Parse(Convert.ToString(GridPrincipal.Rows[i].Cells[5].Value) +" "+ Convert.ToString(GridPrincipal.Rows[i].Cells[6].Value));
                 Direrenca = Data2.Subtract(Data1);
 
                 totalminutos = totalminutos + Direrenca.TotalMinutes;
@@ -281,7 +267,7 @@ namespace ControleHorasExtras
             TotalFinalHoras = TimeSpan.FromMinutes(totalminutos);
             TotalFinalMinutos = (totalminutos % 60) ;
 
-            StringFinal = (TotalFinalHoras.Hours.ToString() + ":" + string.Format("{0:0,#}",Convert.ToDecimal(TotalFinalMinutos)));
+            StringFinal = string.Format("{0:0,#}",Convert.ToDecimal(TotalFinalHoras.TotalHours)) + ":" + string.Format("{0:0,#}",Convert.ToDecimal(TotalFinalMinutos));
             LabValorTotal.Text = StringFinal;
         }
 

@@ -10,6 +10,8 @@ namespace ControleHorasExtras
 {
     class HorasExtras
     {
+        public string IdHoraExtra { get; set; }
+        public string IdColaborador { get; set; }
         public string NomeColaborador { get; set; }
         public string DataInicial { get; set; }
         public string HoraInicial { get; set; }
@@ -22,70 +24,58 @@ namespace ControleHorasExtras
             return ".\\Colaboradores\\"; 
         }
 
-        public static List<HorasExtras> CarregaHorasExtras()
+       public static List<HorasExtras> CarregaHorasExtras(List<List<string>> Listas)
+        {
+            var ListaHorasExtras = new List<HorasExtras>();
+            foreach (List<string> DadosColaboradores in Listas)
+                        {
+                            if (DadosColaboradores[0] == "A")
+                            {
+                                foreach (List<string> DadosHorasExtrasColaboradores in Listas)
+                                        {
+                                            if ((DadosHorasExtrasColaboradores[0] == "B") && (DadosHorasExtrasColaboradores[1] == DadosColaboradores[1]))
+                                            {
+                                                HorasExtras ObjHorasExtras = new HorasExtras();
+                                                ObjHorasExtras.IdColaborador = DadosColaboradores[1];
+                                                ObjHorasExtras.NomeColaborador = DadosColaboradores[2] + " " + DadosColaboradores[3];
+                                                ObjHorasExtras.IdHoraExtra = DadosHorasExtrasColaboradores[2];
+                                                ObjHorasExtras.DataInicial = DadosHorasExtrasColaboradores[3].Substring(0, 10);
+                                                ObjHorasExtras.HoraInicial = DadosHorasExtrasColaboradores[3].Substring(11, 5);
+                                                ObjHorasExtras.DataFinal = DadosHorasExtrasColaboradores[4].Substring(0, 10);
+                                                ObjHorasExtras.HoraFinal = DadosHorasExtrasColaboradores[4].Substring(11, 5);
+                                                ListaHorasExtras.Add(ObjHorasExtras);
+                                            }
+                                        }
+                            }
+                        }
+           return ListaHorasExtras;
+        }
+        public static List<HorasExtras> CarregaHorasExtras(List<List<string>> Listas, string IdColaborador)
         {
 
-            DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\");
-            DirectoryInfo[] ListaPastasDiretorioAtual = DiretorioInicial.GetDirectories();
-            string DataHoraInicial;
-            string DataHoraFinal;
             var ListaHorasExtras = new List<HorasExtras>();
-
-
-            foreach (DirectoryInfo Dir in ListaPastasDiretorioAtual)
+            foreach (List<string> DadosColaboradores in Listas)
             {
-                ListaPastasDiretorioAtual = Dir.GetDirectories("Horas Extras");
-                foreach (DirectoryInfo Dir2 in ListaPastasDiretorioAtual)
+                if (DadosColaboradores[0] == "A" && DadosColaboradores[1] == IdColaborador)
                 {
-                    FileInfo[] NomesArquivos = Dir2.GetFiles("*.txt*");
-                    foreach (FileInfo fi in NomesArquivos)
+                    foreach (List<string> DadosHorasExtrasColaboradores in Listas)
                     {
-                        HorasExtras ObjHorasExtras = new HorasExtras();
-                        StreamReader Texto = new StreamReader(".\\Colaboradores\\" + Dir.Name + "\\" + Dir2.Name + "\\" + fi.Name);
-                        ObjHorasExtras.NomeColaborador = Texto.ReadLine();
-                        DataHoraInicial = Texto.ReadLine();
-                        DataHoraFinal = Texto.ReadLine();
-                        ObjHorasExtras.DataInicial = DataHoraInicial.Trim().Substring(0, 10);
-                        ObjHorasExtras.HoraInicial = DataHoraInicial.Trim().Substring(11, 5);
-                        ObjHorasExtras.DataFinal = DataHoraFinal.Trim().Substring(0, 10);
-                        ObjHorasExtras.HoraFinal = DataHoraFinal.Trim().Substring(11, 5);
-                        Texto.Close();
-                        ListaHorasExtras.Add(ObjHorasExtras);
-
+                        if ((DadosHorasExtrasColaboradores[0] == "B") && (DadosHorasExtrasColaboradores[1] == IdColaborador))
+                        {
+                            HorasExtras ObjHorasExtras = new HorasExtras();
+                            ObjHorasExtras.IdColaborador = DadosColaboradores[1];
+                            ObjHorasExtras.NomeColaborador = DadosColaboradores[2] + " " + DadosColaboradores[3];
+                            ObjHorasExtras.IdHoraExtra = DadosHorasExtrasColaboradores[2];
+                            ObjHorasExtras.DataInicial = DadosHorasExtrasColaboradores[3].Substring(0, 10);
+                            ObjHorasExtras.HoraInicial = DadosHorasExtrasColaboradores[3].Substring(11, 5);
+                            ObjHorasExtras.DataFinal = DadosHorasExtrasColaboradores[4].Substring(0, 10);
+                            ObjHorasExtras.HoraFinal = DadosHorasExtrasColaboradores[4].Substring(11, 5);
+                            ListaHorasExtras.Add(ObjHorasExtras);
+                        }
                     }
                 }
             }
             return ListaHorasExtras;
-
-        }
-        public static List<HorasExtras> CarregaHorasExtras(string NomeColaborador)
-        {
-
-            DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\"+ NomeColaborador +"\\Horas Extras\\");
-            DirectoryInfo[] ListaPastasDiretorioAtual = DiretorioInicial.GetDirectories();
-            string DataHoraInicial;
-            string DataHoraFinal;
-            var ListaHorasExtras = new List<HorasExtras>();
-
-
-            FileInfo[] NomesArquivos = DiretorioInicial.GetFiles("*.txt*");
-                    foreach (FileInfo fi in NomesArquivos)
-                    {
-                        HorasExtras ObjHorasExtras = new HorasExtras();
-                        StreamReader Texto = new StreamReader(".\\Colaboradores\\"+ NomeColaborador +"\\Horas Extras\\" + fi.Name);
-                        ObjHorasExtras.NomeColaborador = Texto.ReadLine();
-                        DataHoraInicial = Texto.ReadLine();
-                        DataHoraFinal = Texto.ReadLine();
-                        ObjHorasExtras.DataInicial = DataHoraInicial.Trim().Substring(0, 10);
-                        ObjHorasExtras.HoraInicial = DataHoraInicial.Trim().Substring(11, 5);
-                        ObjHorasExtras.DataFinal = DataHoraFinal.Trim().Substring(0, 10);
-                        ObjHorasExtras.HoraFinal = DataHoraFinal.Trim().Substring(11, 5);
-                        Texto.Close();
-                        ListaHorasExtras.Add(ObjHorasExtras);
-
-                    }
-            return ListaHorasExtras;
-
         }
 
 

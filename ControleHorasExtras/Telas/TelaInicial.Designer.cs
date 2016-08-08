@@ -106,7 +106,7 @@
             this.GridPrincipal.AllowUserToAddRows = false;
             this.GridPrincipal.AllowUserToDeleteRows = false;
             this.GridPrincipal.AllowUserToOrderColumns = true;
-            this.GridPrincipal.AllowUserToResizeColumns = false;
+            this.GridPrincipal.AllowUserToResizeColumns = true;
             this.GridPrincipal.AllowUserToResizeRows = false;
             this.GridPrincipal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.GridPrincipal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;

@@ -10,72 +10,71 @@ namespace ControleHorasExtras
 {
     public class Colaborador
     {
-                public string IdColaborador { get; set; }
+        public string Id { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string Salario { get; set; }
 
-        public string UrlDiretorio() {
-                return ".\\Dados\\Colaboradores.txt";
+
+        public static string UrlDiretorio {
+            get { return ".\\Dados\\Dados.txt"; }
         }
 
-
-        public static List<Colaborador> CarregaColaboradores()
+        public static List<Colaborador> CarregaColaboradores(List<List<string>> Listas)
         {
-
-                        DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\");
-                        DirectoryInfo[] ListaPastasDiretorioAtual = DiretorioInicial.GetDirectories();
-                        var ListaColaboradores = new List<Colaborador>();
-
-
-                        foreach (DirectoryInfo Dir in ListaPastasDiretorioAtual)
+           var ListaColaboradores = new List<Colaborador>();
+                        foreach (List<string> DadosColaboradores in Listas)
                         {
-                            ListaPastasDiretorioAtual = Dir.GetDirectories("Dados");
-                                foreach (DirectoryInfo Dir2 in ListaPastasDiretorioAtual)
-                                {
-                                        FileInfo[] NomesArquivos = Dir2.GetFiles("*.txt*");
-                                        foreach (FileInfo fi in NomesArquivos)
-                                            {
-                                                Colaborador ObjColaborador = new Colaborador();
-                                                StreamReader Texto = new StreamReader(".\\Colaboradores\\"+ Dir.Name + "\\" + Dir2.Name + "\\"+ fi.Name);
-                                                ObjColaborador.Nome = Texto.ReadLine();
-                                                ObjColaborador.Sobrenome = Texto.ReadLine();
-                                                ObjColaborador.Salario = Texto.ReadLine();
-                                                Texto.Close();
-                                                ListaColaboradores.Add(ObjColaborador);
-                                            }
-                                 }   
-            }
-                        return ListaColaboradores;
-
-        }
-
-        public static List<string> CarregaColaboradoresSomenteNomes()
-        {
-
-            DirectoryInfo DiretorioInicial = new DirectoryInfo(".\\Colaboradores\\");
-            DirectoryInfo[] ListaPastasDiretorioAtual = DiretorioInicial.GetDirectories();
-            var ListaColaboradores = new List<string>();
-            ListaColaboradores.Add("Todos");
-
-            foreach (DirectoryInfo Dir in ListaPastasDiretorioAtual)
-            {
-                ListaPastasDiretorioAtual = Dir.GetDirectories("Dados");
-                foreach (DirectoryInfo Dir2 in ListaPastasDiretorioAtual)
-                {
-                    FileInfo[] NomesArquivos = Dir2.GetFiles("*.txt*");
-                    foreach (FileInfo fi in NomesArquivos)
-                    {
-                        StreamReader Texto = new StreamReader(".\\Colaboradores\\" + Dir.Name + "\\" + Dir2.Name + "\\" + fi.Name);
-                        ListaColaboradores.Add(Texto.ReadLine() +" "+ Texto.ReadLine());
-                        Texto.Close();
-                    }
-                }
-            }
+                            if (DadosColaboradores[0] == "A")
+                            {
+                                Colaborador ObjColaborador = new Colaborador();
+                                ObjColaborador.Id = DadosColaboradores[1];
+                                ObjColaborador.Nome = DadosColaboradores[2];
+                                ObjColaborador.Sobrenome = DadosColaboradores[3];
+                                ObjColaborador.Salario = Controles.ConverteMoeda(DadosColaboradores[4]);
+                                ListaColaboradores.Add(ObjColaborador);
+                            }
+                        }
             return ListaColaboradores;
 
         }
 
+        public static List<string> CarregaColaboradoresSomenteIDeNomes(List<List<string>> Listas)
+        {
+            var ListaColaboradores = new List<string>();
+            foreach (List<string> DadosColaboradores in Listas)
+            {
+                if (DadosColaboradores[0] == "A")
+                {
+                    ListaColaboradores.Add(DadosColaboradores[1] + " - " + DadosColaboradores[2] + " " + DadosColaboradores[3]);
+                }
+            }
+            return ListaColaboradores;
+        }
+
+        public static void AdicionaColaborador(List<List<string>> Listas, Colaborador ObjColaborador)
+        {
+            var ListaQueSeraAdicionada = new List<string>();
+                ListaQueSeraAdicionada.Add("A");
+                ListaQueSeraAdicionada.Add(ObjColaborador.Id);
+                ListaQueSeraAdicionada.Add(ObjColaborador.Nome);
+                ListaQueSeraAdicionada.Add(ObjColaborador.Sobrenome);
+                ListaQueSeraAdicionada.Add(ObjColaborador.Salario);
+            Listas.Add(ListaQueSeraAdicionada);
+        }
+        public static decimal SalarioTotal(List<List<string>> Listas)
+        {
+            decimal SalarioTotal = 0;
+            var ListaColaboradores = new List<string>();
+            foreach (List<string> DadosColaboradores in Listas)
+            {
+                if (DadosColaboradores[0] == "A")
+                {
+                    SalarioTotal += Convert.ToDecimal(DadosColaboradores[4]);
+                }
+            }
+            return SalarioTotal;
+        }
 
     }
 }

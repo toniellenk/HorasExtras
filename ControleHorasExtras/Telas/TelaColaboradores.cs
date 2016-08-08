@@ -40,10 +40,10 @@ namespace ControleHorasExtras
             this.FormTelaIicial = InstanciaTelaIicial;
             this.ItemSelecionado = ItemSelecionado;
             InitializeComponent();
-       //     LerArquivo(ObjColaborador.UrlDiretorio);
+            //     LerArquivo(ObjColaborador.UrlDiretorio);
 
         }
-        private void  TxtSalario_PercaFoco(object sender, EventArgs e)
+        private void TxtSalario_PercaFoco(object sender, EventArgs e)
         {
             if (TxtBxSalario.Text.Trim() != "")
             {
@@ -74,62 +74,42 @@ namespace ControleHorasExtras
 
         private void SalvarColaborador()
         {
+            ObjColaborador.Id = Convert.ToString(Colaborador.CarregaColaboradoresSomenteIDeNomes(this.FormTelaIicial.ListagemColaborador).Count+1);
             ObjColaborador.Nome = TxtBxNome.Text;
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
-            ObjColaborador.Salario = LabValor.Text;
+            ObjColaborador.Salario = TxtBxSalario.Text;
 
-            Controles.CriaDiretorio(ObjColaborador.UrlDiretorio());
-            CriaArquivo(ObjColaborador.UrlDiretorio());
+            AlteraLista();
 
 
         }
 
 
-        private void CriaArquivo(string UrlArquivo)
+        private void AlteraLista()
         {
-            StreamWriter Texto;
+            Colaborador.AdicionaColaborador(this.FormTelaIicial.ListagemColaborador, ObjColaborador);
+            this.Close();
+            this.FormTelaIicial.AtualizaListaColaboradores();
 
-                if (File.Exists(UrlArquivo))
-                {
-                    
-                    this.Close();
-                    this.FormTelaIicial.AtualizaListaColaboradores();
-                }
-                else {
-                    Texto = File.CreateText(UrlArquivo);
-                    Texto.Close();
-                    Controles.AlteraArquivo(UrlArquivo, ObjColaborador.Nome, false);
-                    Controles.AlteraArquivo(UrlArquivo, ObjColaborador.Sobrenome, false);
-                    Controles.AlteraArquivo(UrlArquivo, ObjColaborador.Salario, false);
-                    if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
-                    {
-                        LimpaCampos();
-                    }
-                    else {
-                        this.Close();
-                        this.FormTelaIicial.AtualizaListaColaboradores();
-                    }
-                }
-            }
         }
 
-    //    public DataTable LerArquivo(string UrlText)
-    //    {
-    //        StreamReader Texto;
-    //        DtColaborador. = "dsad";
+        //    public DataTable LerArquivo(string UrlText)
+        //    {
+        //        StreamReader Texto;
+        //        DtColaborador. = "dsad";
         //if (File.Exists(UrlText))
         //    {
         //        Texto = File.OpenText(UrlText);               
         //        Texto.Close();
-               
-                
+
+
         // }
-    //        else
-    //        {
-    //        //    MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
-    //        }
-    //    return DtColaborador;
-    //}
+        //        else
+        //        {
+        //        //    MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
+        //        }
+        //    return DtColaborador;
+        //}
 
 
         #endregion
@@ -139,5 +119,5 @@ namespace ControleHorasExtras
 
         //}
     }
-
+}
 

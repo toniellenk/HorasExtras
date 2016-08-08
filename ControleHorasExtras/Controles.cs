@@ -7,13 +7,12 @@ using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Data;
-
+using System.Reflection;
 
 namespace ControleHorasExtras
 {
     class Controles
     {
-        DataTable DtDados = new DataTable();
         public static void AlteraArquivo(string UrlArquivo, string Conteudo, bool LimpaTudo)
         {
             if (LimpaTudo)
@@ -91,33 +90,43 @@ namespace ControleHorasExtras
             return Valor;
         }
 
-        public List<List<string>> LerArquivo(string Url)
+        public static List<List<string>> LerArquivo(string Url)
         {
             var linhas = new List<List<string>>();          
            
-            try { 
-                using (StreamReader sr = new StreamReader(Url))
-                {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        var linha = new List<string>();
-                        var valorLinha = line.Split('|');
-                        for (int indice = 0; indice <= valorLinha.Length - 1; indice++)
+                    try {
+                        if (File.Exists(Url))
+                                using (StreamReader sr = new StreamReader(Url))
+                                    {
+                                        string line;
+                                        while ((line = sr.ReadLine()) != null)
+                                        {
+                                            List<string> linha = new List<string>();
+                                            var valorLinha = line.Split('|');
+                                            for (int indice = 0; indice <= valorLinha.Length - 1; indice++)
+                                            {
+                                                linha.Add(valorLinha[indice]);
+                                            }
+                                            linhas.Add(linha);                                            
+                                        }
+                                        return linhas;
+                                        
+                                    }
+                        else
                         {
-                            linha.Add(valorLinha[indice]);
-                        }
-                        linhas.Add(linha);
+                            MessageBox.Show("Não existe o arquivo Dados.txt no diretório .\\Dados\\");
+                            return null;
+                        }    
+                                
                     }
-                }
-                return linhas;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return null;
-            }
-        }        
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                        return null;
+                    }
+   
+        }
+
     }
 
 
