@@ -52,15 +52,50 @@ namespace ControleHorasExtras
             return ListaColaboradores;
         }
 
+        public static List<string> CarregaUnicoColaborador(List<List<string>> Listas, string ID)
+        {
+            var ListaColaboradores = new List<string>();
+            foreach (List<string> DadosColaboradores in Listas)
+            {
+                if (DadosColaboradores[0] == "A" && DadosColaboradores[1] == ID)
+                {
+                    ListaColaboradores.Add(DadosColaboradores[2]);
+                    ListaColaboradores.Add(DadosColaboradores[3]);
+                    ListaColaboradores.Add(DadosColaboradores[4]);
+                }
+            }
+            return ListaColaboradores;
+        }
+
         public static void AdicionaColaborador(List<List<string>> Listas, Colaborador ObjColaborador)
         {
-            var ListaQueSeraAdicionada = new List<string>();
+            bool AchouAlguem = false;
+            foreach (List<string> ListaGeral in Listas)
+            {
+                if (ListaGeral[0] == "A")
+                {
+                    if (ListaGeral[1] == ObjColaborador.Id)
+                    {
+                        ListaGeral[2] = ObjColaborador.Nome;
+                        ListaGeral[3] = ObjColaborador.Sobrenome;
+                        ListaGeral[4] = ObjColaborador.Salario;
+                        AchouAlguem = true;
+                    }
+
+
+                }
+
+            }
+            if (!AchouAlguem)
+            {
+                var ListaQueSeraAdicionada = new List<string>();
                 ListaQueSeraAdicionada.Add("A");
                 ListaQueSeraAdicionada.Add(ObjColaborador.Id);
                 ListaQueSeraAdicionada.Add(ObjColaborador.Nome);
                 ListaQueSeraAdicionada.Add(ObjColaborador.Sobrenome);
                 ListaQueSeraAdicionada.Add(ObjColaborador.Salario);
-            Listas.Add(ListaQueSeraAdicionada);
+                Listas.Add(ListaQueSeraAdicionada);
+            }
         }
         public static decimal SalarioTotal(List<List<string>> Listas)
         {

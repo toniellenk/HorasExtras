@@ -15,7 +15,6 @@ namespace ControleHorasExtras
     public partial class TelaColaboradores : Form
     {
         Colaborador ObjColaborador = new Colaborador();
-        string ItemSelecionado;
         private TelaInicial FormTelaIicial;
         public DataTable DtColaborador = new DataTable();
         public TelaColaboradores()
@@ -23,12 +22,6 @@ namespace ControleHorasExtras
             InitializeComponent();
         }
 
-        public TelaColaboradores(string ItemSelecionado)
-        {
-            this.ItemSelecionado = ItemSelecionado;
-            InitializeComponent();
-
-        }
         public TelaColaboradores(TelaInicial InstanciaTelaIicial)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
@@ -37,10 +30,11 @@ namespace ControleHorasExtras
         }
         public TelaColaboradores(string ItemSelecionado, TelaInicial InstanciaTelaIicial)
         {
-            this.FormTelaIicial = InstanciaTelaIicial;
-            this.ItemSelecionado = ItemSelecionado;
+            this.FormTelaIicial = InstanciaTelaIicial;            
             InitializeComponent();
-            //     LerArquivo(ObjColaborador.UrlDiretorio);
+            ObjColaborador.Id = ItemSelecionado;
+            CarregaCampos(ItemSelecionado);
+
 
         }
         private void TxtSalario_PercaFoco(object sender, EventArgs e)
@@ -71,10 +65,11 @@ namespace ControleHorasExtras
             TxtBxSobrenome.Clear();
             TxtBxSalario.Clear();
         }
-
         private void SalvarColaborador()
         {
-            ObjColaborador.Id = Convert.ToString(Colaborador.CarregaColaboradoresSomenteIDeNomes(this.FormTelaIicial.ListagemColaborador).Count+1);
+            if (ObjColaborador.Id == null) {
+                    ObjColaborador.Id  = Convert.ToString(Colaborador.CarregaColaboradoresSomenteIDeNomes(this.FormTelaIicial.ListagemColaborador).Count + 1);
+            }
             ObjColaborador.Nome = TxtBxNome.Text;
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
             ObjColaborador.Salario = TxtBxSalario.Text;
@@ -82,9 +77,7 @@ namespace ControleHorasExtras
             AlteraLista();
 
 
-        }
-
-
+        }        
         private void AlteraLista()
         {
             Colaborador.AdicionaColaborador(this.FormTelaIicial.ListagemColaborador, ObjColaborador);
@@ -92,32 +85,18 @@ namespace ControleHorasExtras
             this.FormTelaIicial.AtualizaListaColaboradores();
 
         }
-
-        //    public DataTable LerArquivo(string UrlText)
-        //    {
-        //        StreamReader Texto;
-        //        DtColaborador. = "dsad";
-        //if (File.Exists(UrlText))
-        //    {
-        //        Texto = File.OpenText(UrlText);               
-        //        Texto.Close();
-
-
-        // }
-        //        else
-        //        {
-        //        //    MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
-        //        }
-        //    return DtColaborador;
-        //}
-
+        private void CarregaCampos(string ID)
+        {
+            List<string> Dados = Colaborador.CarregaUnicoColaborador(this.FormTelaIicial.ListagemColaborador, ID);
+            LabId.Text += ID;
+            TxtBxNome.Text = Dados[0];
+            TxtBxSobrenome.Text = Dados[1];
+            TxtBxSalario.Text = Dados[2];
+        }
+       
 
         #endregion
 
-        //private void LabValor_Click(object sender, EventArgs e)
-        //{
-
-        //}
     }
 }
 

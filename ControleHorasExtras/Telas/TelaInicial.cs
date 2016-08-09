@@ -139,7 +139,7 @@ namespace ControleHorasExtras
                 {
                     case "Colaborador":
                         {
-                            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+                            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString().Trim();
                             Form Colaboradores = new TelaColaboradores(ItemSelecionado, this);
                             Colaboradores.ShowDialog();
                             break;

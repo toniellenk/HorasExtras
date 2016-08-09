@@ -36,6 +36,7 @@
             this.TxtBxSalario = new System.Windows.Forms.TextBox();
             this.ButSalvar = new System.Windows.Forms.Button();
             this.LabValor = new System.Windows.Forms.Label();
+            this.LabId = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -44,7 +45,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.TxtBxNome);
-            this.groupBox1.Location = new System.Drawing.Point(56, 36);
+            this.groupBox1.Location = new System.Drawing.Point(60, 70);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(195, 39);
             this.groupBox1.TabIndex = 0;
@@ -61,7 +62,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.TxtBxSobrenome);
-            this.groupBox2.Location = new System.Drawing.Point(56, 83);
+            this.groupBox2.Location = new System.Drawing.Point(60, 117);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(320, 39);
             this.groupBox2.TabIndex = 1;
@@ -78,7 +79,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.TxtBxSalario);
-            this.groupBox3.Location = new System.Drawing.Point(56, 128);
+            this.groupBox3.Location = new System.Drawing.Point(60, 162);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(99, 39);
             this.groupBox3.TabIndex = 2;
@@ -95,7 +96,7 @@
             // 
             // ButSalvar
             // 
-            this.ButSalvar.Location = new System.Drawing.Point(176, 208);
+            this.ButSalvar.Location = new System.Drawing.Point(180, 242);
             this.ButSalvar.Name = "ButSalvar";
             this.ButSalvar.Size = new System.Drawing.Size(75, 23);
             this.ButSalvar.TabIndex = 3;
@@ -108,17 +109,26 @@
             this.LabValor.AutoSize = true;
             this.LabValor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabValor.ForeColor = System.Drawing.Color.Red;
-            this.LabValor.Location = new System.Drawing.Point(161, 148);
+            this.LabValor.Location = new System.Drawing.Point(165, 182);
             this.LabValor.Name = "LabValor";
             this.LabValor.Size = new System.Drawing.Size(0, 13);
             this.LabValor.TabIndex = 4;
-       //     this.LabValor.Click += new System.EventHandler(this.LabValor_Click);
+            // 
+            // LabId
+            // 
+            this.LabId.AutoSize = true;
+            this.LabId.Location = new System.Drawing.Point(67, 38);
+            this.LabId.Name = "LabId";
+            this.LabId.Size = new System.Drawing.Size(24, 13);
+            this.LabId.TabIndex = 5;
+            this.LabId.Text = "ID: ";
             // 
             // TelaColaboradores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 266);
+            this.ClientSize = new System.Drawing.Size(425, 325);
+            this.Controls.Add(this.LabId);
             this.Controls.Add(this.LabValor);
             this.Controls.Add(this.ButSalvar);
             this.Controls.Add(this.groupBox3);
@@ -151,5 +161,6 @@
         private System.Windows.Forms.Button ButSalvar;
         private System.Windows.Forms.TextBox TxtBxSalario;
         private System.Windows.Forms.Label LabValor;
+        private System.Windows.Forms.Label LabId;
     }
 }
