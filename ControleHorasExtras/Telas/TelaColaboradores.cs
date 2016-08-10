@@ -68,19 +68,18 @@ namespace ControleHorasExtras
         private void SalvarColaborador()
         {
             if (ObjColaborador.Id == null) {
-                    ObjColaborador.Id  = Convert.ToString(Colaborador.CarregaColaboradoresSomenteIDeNomes(this.FormTelaIicial.ListagemColaborador).Count + 1);
+                ObjColaborador.Id = Colaborador.RetornaNovoID(FormTelaIicial.ListagemColaborador).ToString(); 
             }
             ObjColaborador.Nome = TxtBxNome.Text;
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
             ObjColaborador.Salario = TxtBxSalario.Text;
-
             AlteraLista();
 
 
         }        
         private void AlteraLista()
         {
-            Colaborador.AdicionaColaborador(this.FormTelaIicial.ListagemColaborador, ObjColaborador);
+            Colaborador.AdicionaAlteraColaborador(this.FormTelaIicial.ListagemColaborador, ObjColaborador);
             this.Close();
             this.FormTelaIicial.AtualizaListaColaboradores();
 

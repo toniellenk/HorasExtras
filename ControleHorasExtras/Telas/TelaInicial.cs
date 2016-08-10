@@ -15,6 +15,7 @@ namespace ControleHorasExtras
     {
         string ItemSelecionado;
         public string TipoGrid;
+        public bool Alteracao = false;
         public List<List<string>> ListagemColaborador = Controles.LerArquivo(Colaborador.UrlDiretorio);
 
         public TelaInicial()
@@ -58,10 +59,10 @@ namespace ControleHorasExtras
         {
             ComboBoxColaborador.Visible = true;
             GridPrincipal.Enabled = true;
-            ButAdicionar.Enabled = false;
+            ButAdicionar.Enabled = true;
             ButAlterar.Enabled = true;
             ButRemover.Enabled = true;
-            ButHorasExtras.Enabled = true;
+            ButHorasExtras.Visible = false;
             LabTotal.Enabled = true;
             LabValorTotal.Enabled = true;
             LabTotal.Text = "Total de Horas: ";
@@ -146,9 +147,7 @@ namespace ControleHorasExtras
                         }
                     case "HorasExtras":
                         {
-                            ItemSelecionado = GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[2].Value.ToString();
-                            ItemSelecionado = ItemSelecionado.Replace("/", "").Replace(":", "").Trim();
-                            Form HorasExtras = new TelaHorasExtras(ItemSelecionado, this);
+                            Form HorasExtras = new TelaHorasExtras(this, true);
                             HorasExtras.ShowDialog();
                             break;
                         }
@@ -184,7 +183,8 @@ namespace ControleHorasExtras
                     {
                         try
                         {
-                            ExcluirHoraExtra();
+                            MessageBox.Show(HorasExtras.RetornaNovoID(ListagemColaborador).ToString());
+                            //ExcluirHoraExtra();
                             break;
                         }
                         catch (Exception ex)

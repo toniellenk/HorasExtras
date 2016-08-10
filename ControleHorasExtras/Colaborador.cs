@@ -67,7 +67,20 @@ namespace ControleHorasExtras
             return ListaColaboradores;
         }
 
-        public static void AdicionaColaborador(List<List<string>> Listas, Colaborador ObjColaborador)
+        public static int RetornaNovoID(List<List<string>> Listas)
+        {
+            var ListHorasExtras = new List<int>();
+            foreach (List<string> DadosHoraExtra in Listas)
+            {
+                if (DadosHoraExtra[0] == "A")
+                {
+                    ListHorasExtras.Add(Convert.ToInt32(DadosHoraExtra[2]));
+                }
+            }
+            return ListHorasExtras.Max() + 1;
+        }
+
+        public static void AdicionaAlteraColaborador(List<List<string>> Listas, Colaborador ObjColaborador)
         {
             bool AchouAlguem = false;
             foreach (List<string> ListaGeral in Listas)
@@ -97,6 +110,7 @@ namespace ControleHorasExtras
                 Listas.Add(ListaQueSeraAdicionada);
             }
         }
+
         public static decimal SalarioTotal(List<List<string>> Listas)
         {
             decimal SalarioTotal = 0;

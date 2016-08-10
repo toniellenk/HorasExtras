@@ -24,7 +24,7 @@ namespace ControleHorasExtras
             return ".\\Colaboradores\\"; 
         }
 
-       public static List<HorasExtras> CarregaHorasExtras(List<List<string>> Listas)
+        public static List<HorasExtras> CarregaHorasExtras(List<List<string>> Listas)
         {
             var ListaHorasExtras = new List<HorasExtras>();
             foreach (List<string> DadosColaboradores in Listas)
@@ -77,7 +77,66 @@ namespace ControleHorasExtras
             }
             return ListaHorasExtras;
         }
+        public static List<string> CarregaUnicaHoraExtra(List<List<string>> Listas, string ID)
+        {
+            var ListHorasExtras = new List<string>();
+            foreach (List<string> DadosHoraExtra in Listas)
+            {
+                if (DadosHoraExtra[0] == "B" && DadosHoraExtra[2] == ID)
+                {
+                    ListHorasExtras.Add(DadosHoraExtra[1]);
+                    ListHorasExtras.Add(DadosHoraExtra[2]);
+                    ListHorasExtras.Add(DadosHoraExtra[3]);
+                    ListHorasExtras.Add(DadosHoraExtra[4]);
+                }
+            }
+            return ListHorasExtras;
+        }
+        public static int RetornaNovoID(List<List<string>> Listas)
+        {
+            var ListHorasExtras = new List<int>();
+            foreach (List<string> DadosHoraExtra in Listas)
+            {
+                if (DadosHoraExtra[0] == "B")
+                {
+                    ListHorasExtras.Add(Convert.ToInt32(DadosHoraExtra[2]));
+                }
+            }
+            return ListHorasExtras.Max() + 1;
+        }
 
+        public static void AdicionaAlteraHoraExtra(List<List<string>> Listas, HorasExtras ObjHoraExtra, bool Alteracao)
+        {
+            int Indice = 0;
 
+            var ListaQueSeraAdicionada = new List<string>();
+            if (Alteracao)
+            {
+                foreach (List<string> ListaGeral in Listas)
+                {
+                    if (ListaGeral[0] == "B" && ListaGeral[2] == ObjHoraExtra.IdHoraExtra)
+                            {
+                                    ListaGeral[3] = ObjHoraExtra.DataInicial;
+                                    ListaGeral[4] = ObjHoraExtra.DataFinal;
+                            }
+                }
+            }
+            
+            else {                
+                foreach (List<string> ListaGeral in Listas)
+                        {
+                                if (ListaGeral[0] == "A" && ListaGeral[1] == ObjHoraExtra.IdColaborador)
+                                {
+                                        Indice = Listas.IndexOf(ListaGeral);
+                                }
+                        }
+                        ListaQueSeraAdicionada.Add("B");
+                        ListaQueSeraAdicionada.Add(ObjHoraExtra.IdColaborador);
+                        ListaQueSeraAdicionada.Add(ObjHoraExtra.IdHoraExtra);
+                        ListaQueSeraAdicionada.Add(ObjHoraExtra.DataInicial);
+                        ListaQueSeraAdicionada.Add(ObjHoraExtra.DataFinal);
+                        Listas.Insert(Indice, ListaQueSeraAdicionada);
+                }            
+        }
     }
 }

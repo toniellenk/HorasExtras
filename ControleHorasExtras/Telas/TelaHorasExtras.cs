@@ -15,9 +15,8 @@ namespace ControleHorasExtras
     {
         HorasExtras ObjHorasExtras = new HorasExtras();
         string NomeColaborador;
-        int TipoTela; // 1 - Novo, 2 - Alteração
+        bool Alteracao = false;
         private TelaInicial FormTelaIicial;
-        string CacheDataHoraIcial;
         public TelaHorasExtras()
         {
             InitializeComponent();
@@ -32,7 +31,7 @@ namespace ControleHorasExtras
         public TelaHorasExtras(TelaInicial InstanciaTelaIicial)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
-            
+            InitializeComponent();
             switch (FormTelaIicial.TipoGrid)
             {
                 case "Colaborador":
@@ -42,7 +41,10 @@ namespace ControleHorasExtras
                     }
                 case "HorasExtras":
                     {
-                        NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
+
+                        ObjHorasExtras.IdHoraExtra = HorasExtras.RetornaNovoID(FormTelaIicial.ListagemColaborador).ToString();
+                        LabID.Text += ObjHorasExtras.IdHoraExtra;
+                        
                         break;
                     }
                 default:
@@ -52,20 +54,14 @@ namespace ControleHorasExtras
             }
 
             InitializeComponent();
-            LabNomeColaborador.Text = NomeColaborador;
-            TipoTela = 1;
-
-
         }
-        public TelaHorasExtras(string ItemSelecionado, TelaInicial InstanciaTelaIicial)
+        public TelaHorasExtras(TelaInicial InstanciaTelaIicial, bool Alteracao = true)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
-            NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
             InitializeComponent();
-            LabNomeColaborador.Text = NomeColaborador;
-            LerAquivo(".\\Colaboradores\\" + NomeColaborador + "\\Horas Extras\\", ItemSelecionado + ".txt");
-            CacheDataHoraIcial = TxBxDtaInicial.Text;
-            TipoTela = 2;
+            ObjHorasExtras.IdHoraExtra = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
+            CarregaCampos(ObjHorasExtras.IdHoraExtra.Trim());
+            this.Alteracao = Alteracao;
 
         }
         private void ButSalvar_Click(object sender, EventArgs e)
@@ -73,6 +69,8 @@ namespace ControleHorasExtras
             try
             {
                 SalvarHoras();
+                FormTelaIicial.AtualizaListaHorasExtras();
+                this.Close();
             }
             catch (Exception ex){
                 MessageBox.Show(ex.Message);   
@@ -88,69 +86,31 @@ namespace ControleHorasExtras
         }
         private void SalvarHoras()
         {
-
-
+            if (!Alteracao)
+            {
+                ObjHorasExtras.IdColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+            }
             ObjHorasExtras.DataInicial = TxBxDtaInicial.Text;
             ObjHorasExtras.DataFinal = TxBxDtaFinal.Text;
-            string DiretorioPadrao = HorasExtras.UrlDiretorio() + NomeColaborador + "\\Horas Extras\\";
+            HorasExtras.AdicionaAlteraHoraExtra(FormTelaIicial.ListagemColaborador, ObjHorasExtras, Alteracao);
+        }
+
+        private void CarregaCampos(string ID) {
+            List<string> Dados = HorasExtras.CarregaUnicaHoraExtra(FormTelaIicial.ListagemColaborador, ID);
+
+            ObjHorasExtras.IdColaborador = Dados[0];
+            ObjHorasExtras.DataInicial = Dados[2];
+            ObjHorasExtras.DataFinal = Dados[3];
 
 
-            Controles.CriaDiretorio(DiretorioPadrao);
-            if (TipoTela == 2)
-            {
-                  CacheDataHoraIcial = DiretorioPadrao + CacheDataHoraIcial.Replace("/", "").Replace(":", "") + ".txt";
-            }
+            LabID.Text += ID;
+            LabNomeColaborador.Text = FormTelaIicial.GridPrincipal.CurrentRow.Cells[2].Value.ToString() + " " + FormTelaIicial.GridPrincipal.CurrentRow.Cells[3].Value.ToString();
+            TxBxDtaInicial.Text = ObjHorasExtras.DataInicial;
+            TxBxDtaFinal.Text = ObjHorasExtras.DataFinal;
 
-            CriaArquivo(DiretorioPadrao, ObjHorasExtras.DataInicial.Replace("/", "").Replace(":", "") + ".txt");
 
         }
 
-
-
-        private void CriaArquivo(string UrlDiretorio, string NomeArquivo)
-        {
-            StreamWriter Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
-
-            if (NomeColaborador != null && TipoTela == 1)
-            {
-                if (File.Exists(UrlAquivo))
-                {
-                    MessageBox.Show("Já Existe o registro " + ObjHorasExtras.DataInicial + ", utlize o direito Alterar no menu Manutenção >> Horas Extras");
-                    this.Close();
-                    this.FormTelaIicial.AtualizaListaHorasExtras();
-                }
-                else
-                {
-                    Texto = File.CreateText(UrlAquivo);
-                    Texto.Close();
-                    Controles.AlteraArquivo(UrlAquivo, NomeColaborador, false);
-                    Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataInicial, false);
-                    Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataFinal, false);
-                    if (Controles.ValidaMensagem("Registro cadastrado com sucesso! Deseja cadastrar um novo?", "Responda"))
-                    {
-                        LimpaCampos();
-                    }
-                    else
-                    {
-                        this.Close();
-                        this.FormTelaIicial.AtualizaListaHorasExtras();
-                    }
-                }
-            }
-            else
-            {
-                File.Delete(CacheDataHoraIcial);
-                Texto = File.CreateText(UrlAquivo);
-                Texto.Close();
-                Controles.AlteraArquivo(UrlAquivo, NomeColaborador, true);
-                Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataInicial, false);
-                Controles.AlteraArquivo(UrlAquivo, ObjHorasExtras.DataFinal, false);
-                MessageBox.Show("Registro " + ObjHorasExtras.DataInicial + " alterado com sucesso!");
-                this.Close();
-                this.FormTelaIicial.AtualizaListaHorasExtras();
-            }
-        }
 
         private void LerAquivo(string UrlDiretorio, string NomeArquivo)
         {
