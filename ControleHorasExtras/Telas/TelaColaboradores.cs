@@ -68,7 +68,7 @@ namespace ControleHorasExtras
         private void SalvarColaborador()
         {
             if (ObjColaborador.Id == null) {
-                ObjColaborador.Id = Colaborador.RetornaNovoID(FormTelaIicial.ListagemColaborador).ToString(); 
+                ObjColaborador.Id = Colaborador.RetornaNovoID(FormTelaIicial.ListagemDeDados).ToString(); 
             }
             ObjColaborador.Nome = TxtBxNome.Text;
             ObjColaborador.Sobrenome = TxtBxSobrenome.Text;
@@ -79,14 +79,14 @@ namespace ControleHorasExtras
         }        
         private void AlteraLista()
         {
-            Colaborador.AdicionaAlteraColaborador(this.FormTelaIicial.ListagemColaborador, ObjColaborador);
+            Colaborador.AdicionaAlteraColaborador(this.FormTelaIicial.ListagemDeDados, ObjColaborador);
             this.Close();
             this.FormTelaIicial.AtualizaListaColaboradores();
 
         }
         private void CarregaCampos(string ID)
         {
-            List<string> Dados = Colaborador.CarregaUnicoColaborador(this.FormTelaIicial.ListagemColaborador, ID);
+            List<string> Dados = Colaborador.CarregaUnicoColaborador(this.FormTelaIicial.ListagemDeDados, ID);
             LabId.Text += ID;
             TxtBxNome.Text = Dados[0];
             TxtBxSobrenome.Text = Dados[1];

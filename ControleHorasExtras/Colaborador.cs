@@ -79,7 +79,18 @@ namespace ControleHorasExtras
             }
             return ListHorasExtras.Max() + 1;
         }
-
+        public static void ExcluiColaborador(List<List<string>> Listas, string ID)
+        {
+            int Indice = 0;
+            foreach (List<string> DadosHoraExtra in Listas)
+            {
+                if (DadosHoraExtra[0] == "A" && DadosHoraExtra[1] == ID)
+                {
+                    Indice = Listas.IndexOf(DadosHoraExtra);
+                }
+            }
+            Listas.RemoveAt(Indice);
+        }
         public static void AdicionaAlteraColaborador(List<List<string>> Listas, Colaborador ObjColaborador)
         {
             bool AchouAlguem = false;

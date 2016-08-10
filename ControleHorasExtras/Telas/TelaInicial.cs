@@ -16,7 +16,7 @@ namespace ControleHorasExtras
         string ItemSelecionado;
         public string TipoGrid;
         public bool Alteracao = false;
-        public List<List<string>> ListagemColaborador = Controles.LerArquivo(Colaborador.UrlDiretorio);
+        public List<List<string>> ListagemDeDados = Controles.LerArquivo(Colaborador.UrlDiretorio);
 
         public TelaInicial()
         {
@@ -115,7 +115,7 @@ namespace ControleHorasExtras
                         if (ColaboradorSelecionado != "" && ColaboradorSelecionado != "TODOS")
                         {
                                 var valorLinha = ColaboradorSelecionado.Split('-');
-                                GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemColaborador, valorLinha[0].Trim());
+                                GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemDeDados, valorLinha[0].Trim());
                         }
                         else
                         {
@@ -183,8 +183,7 @@ namespace ControleHorasExtras
                     {
                         try
                         {
-                            MessageBox.Show(HorasExtras.RetornaNovoID(ListagemColaborador).ToString());
-                            //ExcluirHoraExtra();
+                            ExcluirHoraExtra();
                             break;
                         }
                         catch (Exception ex)
@@ -209,14 +208,14 @@ namespace ControleHorasExtras
         #region Métodos
 
         public void AtualizaListaColaboradores() {
-            GridPrincipal.DataSource = Colaborador.CarregaColaboradores(ListagemColaborador);
-            LabValorTotal.Text = Controles.ConverteMoeda(Colaborador.SalarioTotal(ListagemColaborador).ToString());
+            GridPrincipal.DataSource = Colaborador.CarregaColaboradores(ListagemDeDados);
+            LabValorTotal.Text = Controles.ConverteMoeda(Colaborador.SalarioTotal(ListagemDeDados).ToString());
         }
 
         public void AtualizaListaHorasExtras()
         {
-            GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemColaborador);     
-            List<string> ListaColaboradores = Colaborador.CarregaColaboradoresSomenteIDeNomes(ListagemColaborador);
+            GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemDeDados);     
+            List<string> ListaColaboradores = Colaborador.CarregaColaboradoresSomenteIDeNomes(ListagemDeDados);
             ListaColaboradores.Insert(0, "TODOS");
             ComboBoxColaborador.DataSource = ListaColaboradores;
             TotalizaHoras();
@@ -224,11 +223,9 @@ namespace ControleHorasExtras
 
         private void ExcluirHoraExtra()
         {
-            ItemSelecionado = GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[2].Value.ToString();
-            ItemSelecionado = ItemSelecionado.Replace("/", "").Replace(":", "").Trim();
-            File.Delete(".\\Colaboradores\\" + GridPrincipal.CurrentRow.Cells[0].Value.ToString() + "\\Horas Extras\\" + ItemSelecionado + ".txt");
+            HorasExtras.ExcluiHoraExtra(ListagemDeDados,GridPrincipal.CurrentRow.Cells[0].Value.ToString().Trim());
             AtualizaListaHorasExtras();
-            MessageBox.Show("Horas Extras excluídas com sucesso!");
+            MessageBox.Show("Hora Extra excluída com sucesso!");
         }
         private void ExcluirColaborador()
         {
@@ -236,7 +233,7 @@ namespace ControleHorasExtras
 
             if (Controles.ExisteHorasExtras(ItemSelecionado))
             {
-                if (Controles.ValidaMensagem("Este colaborador possui horas extras lançadas, deseja excluir mesmo assim?", "Exclusão de Colaborador"))
+                else ()
                 {
                     Directory.Delete(".\\Colaboradores\\" + ItemSelecionado, true);
                     AtualizaListaColaboradores();

@@ -92,6 +92,18 @@ namespace ControleHorasExtras
             }
             return ListHorasExtras;
         }
+        public static void ExcluiHoraExtra(List<List<string>> Listas, string ID)
+        {
+            int Indice = 0;
+            foreach (List<string> DadosHoraExtra in Listas)
+            {
+                if (DadosHoraExtra[0] == "B" && DadosHoraExtra[2] == ID)
+                {
+                    Indice = Listas.IndexOf(DadosHoraExtra);
+                }
+            }
+            Listas.RemoveAt(Indice);
+        }
         public static int RetornaNovoID(List<List<string>> Listas)
         {
             var ListHorasExtras = new List<int>();

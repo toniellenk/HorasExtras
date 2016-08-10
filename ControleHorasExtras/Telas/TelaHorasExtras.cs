@@ -42,9 +42,8 @@ namespace ControleHorasExtras
                 case "HorasExtras":
                     {
 
-                        ObjHorasExtras.IdHoraExtra = HorasExtras.RetornaNovoID(FormTelaIicial.ListagemColaborador).ToString();
-                        LabID.Text += ObjHorasExtras.IdHoraExtra;
-                        
+                        ObjHorasExtras.IdHoraExtra = HorasExtras.RetornaNovoID(FormTelaIicial.ListagemDeDados).ToString();
+                        LabID.Text += ObjHorasExtras.IdHoraExtra;                        
                         break;
                     }
                 default:
@@ -52,8 +51,6 @@ namespace ControleHorasExtras
                         break;
                     }
             }
-
-            InitializeComponent();
         }
         public TelaHorasExtras(TelaInicial InstanciaTelaIicial, bool Alteracao = true)
         {
@@ -92,11 +89,11 @@ namespace ControleHorasExtras
             }
             ObjHorasExtras.DataInicial = TxBxDtaInicial.Text;
             ObjHorasExtras.DataFinal = TxBxDtaFinal.Text;
-            HorasExtras.AdicionaAlteraHoraExtra(FormTelaIicial.ListagemColaborador, ObjHorasExtras, Alteracao);
+            HorasExtras.AdicionaAlteraHoraExtra(FormTelaIicial.ListagemDeDados, ObjHorasExtras, Alteracao);
         }
 
         private void CarregaCampos(string ID) {
-            List<string> Dados = HorasExtras.CarregaUnicaHoraExtra(FormTelaIicial.ListagemColaborador, ID);
+            List<string> Dados = HorasExtras.CarregaUnicaHoraExtra(FormTelaIicial.ListagemDeDados, ID);
 
             ObjHorasExtras.IdColaborador = Dados[0];
             ObjHorasExtras.DataInicial = Dados[2];
@@ -112,24 +109,6 @@ namespace ControleHorasExtras
         }
 
 
-        private void LerAquivo(string UrlDiretorio, string NomeArquivo)
-        {
-            StreamReader Texto;
-            string UrlAquivo = UrlDiretorio + NomeArquivo;
-
-            if (File.Exists(UrlAquivo))
-            {
-                Texto = File.OpenText(UrlAquivo);
-                Texto.ReadLine();
-                TxBxDtaInicial.Text = Texto.ReadLine();
-                TxBxDtaFinal.Text = Texto.ReadLine();
-                Texto.Close();
-            }
-            else
-            {
-                MessageBox.Show("Não existe o arquivo " + NomeArquivo + " no diretório " + UrlDiretorio);
-            }
-        }
         #endregion
 
         private void TxtBxNome_TextChanged(object sender, EventArgs e)
