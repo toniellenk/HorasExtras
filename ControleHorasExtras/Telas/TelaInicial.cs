@@ -16,7 +16,7 @@ namespace ControleHorasExtras
         string ItemSelecionado;
         public string TipoGrid;
         public bool Alteracao = false;
-        public List<List<string>> ListagemDeDados = Controles.LerArquivo(Colaborador.UrlDiretorio);
+        public List<List<string>> ListagemDeDados = Controles.Dados(Controles.UrlDiretorio);
 
         public TelaInicial()
         {
@@ -26,7 +26,7 @@ namespace ControleHorasExtras
             ButAdicionar.Enabled = false;
             ButAlterar.Enabled = false;
             ButRemover.Enabled = false;
-            ButHorasExtras.Enabled = false;
+            ButHorasExtras.Visible = false;
             LabTotal.Enabled = false;
             LabValorTotal.Enabled = false;
         }
@@ -40,7 +40,7 @@ namespace ControleHorasExtras
             ButAdicionar.Enabled = true;
             ButAlterar.Enabled = true;
             ButRemover.Enabled = true;
-            ButHorasExtras.Enabled = true;
+            ButHorasExtras.Visible = true;
             LabTotal.Enabled = true;
             LabValorTotal.Enabled = true;
             LabTotal.Text = "Total da folha: ";
@@ -79,26 +79,25 @@ namespace ControleHorasExtras
 
         private void ButAdicionar_Click(object sender, EventArgs e)
         {
-            switch (TipoGrid)
-            {
-                case "Colaborador":
-                    {
-                        Form Colaboradores = new TelaColaboradores(this);
-                        Colaboradores.ShowDialog();
-                        break;
-                    }
-                case "HorasExtras":
-                    {
-                        Form HorasExtras = new TelaHorasExtras(this);
-                        HorasExtras.ShowDialog();
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-
+                switch (TipoGrid)
+                {
+                    case "Colaborador":
+                        {
+                            Form Colaboradores = new TelaColaboradores(this);
+                            Colaboradores.ShowDialog();
+                            break;
+                        }
+                    case "HorasExtras":
+                        {
+                            Form HorasExtras = new TelaHorasExtras(this);
+                            HorasExtras.ShowDialog();
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
         }
 
         private void ComboBoxColaborador_AlteraValor(object sender, EventArgs e)
@@ -134,7 +133,7 @@ namespace ControleHorasExtras
 
         private void ButAlterar_Click(object sender, EventArgs e)
         {
-            if (GridPrincipal.CurrentRow.Cells[0].Value.ToString().Trim() != "")
+            if (GridPrincipal.RowCount > 0)
             {
                 switch (TipoGrid)
                 {
@@ -165,45 +164,49 @@ namespace ControleHorasExtras
 
         private void ButRemover_Click(object sender, EventArgs e)
         {
-            switch (TipoGrid)
-            {
-                case "Colaborador":
-                    {
-                        try {
-                            ExcluirColaborador();
-                            break;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Não foi possível excluir colaborador: " + ex);
-                            break;
-                        }
-                    }
-                case "HorasExtras":
-                    {
-                        try
-                        {
-                            ExcluirHoraExtra();
-                            break;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Não foi possível excluir Hora Extra: " + ex);
-                            break;
-                        }
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
 
+            if (GridPrincipal.RowCount > 0)
+            {
+                switch (TipoGrid)
+                {
+                    case "Colaborador":
+                        {
+                            try
+                            {
+                                ExcluirColaborador();
+                                break;
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Não foi possível excluir colaborador: " + ex);
+                                break;
+                            }
+                        }
+                    case "HorasExtras":
+                        {
+                            try
+                            {
+                                ExcluirHoraExtra();
+                                break;
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Não foi possível excluir Hora Extra: " + ex);
+                                break;
+                            }
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, selecione algum item na grade.");
+            }
         }
 
-        //private void Click_GridPrincipal(object sender, EventArgs e)
-        //{
-        //    ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
-        //}
 
         #region Métodos
 
@@ -229,16 +232,17 @@ namespace ControleHorasExtras
         }
         private void ExcluirColaborador()
         {
-            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+            ItemSelecionado = GridPrincipal.CurrentRow.Cells[0].Value.ToString();
 
-            if (Controles.ExisteHorasExtras(ItemSelecionado))
+            if (HorasExtras.CarregaHorasExtras(ListagemDeDados, ItemSelecionado).Count > 0)
             {
-                else ()
-                {
-                    Directory.Delete(".\\Colaboradores\\" + ItemSelecionado, true);
-                    AtualizaListaColaboradores();
-                    MessageBox.Show("Colaborador excluído com sucesso!");
-                }
+                MessageBox.Show("Este colaborador não pode ser excluído, porque possui horas extras lançadas.");
+            }
+            else
+            {
+                Colaborador.ExcluiColaborador(ListagemDeDados, ItemSelecionado);
+                AtualizaListaColaboradores();
+                MessageBox.Show("Colaborador excluído com sucesso!");
             }
         }
 
@@ -272,13 +276,24 @@ namespace ControleHorasExtras
 
         private void ButHorasExtras_Click(object sender, EventArgs e)
         {
-            TelaHorasExtras Tela = new TelaHorasExtras(this);
-            Tela.ShowDialog();
+            if (GridPrincipal.RowCount > 0)
+            {
+                TelaHorasExtras Tela = new TelaHorasExtras(this);
+                Tela.ShowDialog();
+            }
+            else {
+                MessageBox.Show("Por favor, selecione algum colaborador!");
+            }
         }
 
         private void LabTotal_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Controles.GravaDados(ListagemDeDados);
         }
     }
 }

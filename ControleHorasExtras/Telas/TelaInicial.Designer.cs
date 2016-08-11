@@ -41,6 +41,7 @@
             this.LabTotal = new System.Windows.Forms.Label();
             this.LabValorTotal = new System.Windows.Forms.Label();
             this.ComboBoxColaborador = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.MenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridPrincipal)).BeginInit();
             this.SuspendLayout();
@@ -106,7 +107,6 @@
             this.GridPrincipal.AllowUserToAddRows = false;
             this.GridPrincipal.AllowUserToDeleteRows = false;
             this.GridPrincipal.AllowUserToOrderColumns = true;
-            this.GridPrincipal.AllowUserToResizeColumns = true;
             this.GridPrincipal.AllowUserToResizeRows = false;
             this.GridPrincipal.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.GridPrincipal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -198,11 +198,22 @@
             this.ComboBoxColaborador.TabIndex = 8;
             this.ComboBoxColaborador.TextChanged += new System.EventHandler(this.ComboBoxColaborador_AlteraValor);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(548, 521);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // TelaInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.ComboBoxColaborador);
             this.Controls.Add(this.LabValorTotal);
             this.Controls.Add(this.LabTotal);
@@ -238,6 +249,7 @@
         private System.Windows.Forms.Label LabTotal;
         private System.Windows.Forms.Label LabValorTotal;
         private System.Windows.Forms.ComboBox ComboBoxColaborador;
+        private System.Windows.Forms.Button button1;
     }
 }
 

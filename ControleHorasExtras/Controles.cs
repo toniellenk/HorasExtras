@@ -13,32 +13,16 @@ namespace ControleHorasExtras
 {
     class Controles
     {
-        public static void AlteraArquivo(string UrlArquivo, string Conteudo, bool LimpaTudo)
+        public static string UrlDiretorio
         {
-            if (LimpaTudo)
-            {
-                StreamWriter Texto = new StreamWriter(UrlArquivo, false);
-                Texto.WriteLine(Conteudo);
-                Texto.Close();
-            }
-            else
-            {
-                StreamWriter Texto = new StreamWriter(UrlArquivo, true);
-                Texto.WriteLine(Conteudo);
-                Texto.Close();
-            }
-
+            get { return ".\\Dados\\Dados.txt"; }
         }
-
-        public static void CriaDiretorio(string UrlDiretorio)
+        public static string ConverteMoeda(string Valor)
         {
-            if (!Directory.Exists(UrlDiretorio))
-            {
-                Directory.CreateDirectory(UrlDiretorio);
-            }
-
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
+            Valor = string.Format("{0:C}", Convert.ToDouble(Valor));
+            return Valor;
         }
-
         public static Boolean ValidaMensagem(string Mensagem, string Titulo)
         {
 
@@ -63,34 +47,7 @@ namespace ControleHorasExtras
 
         }
 
-        public static Boolean ExisteHorasExtras(string ItemSelecionado)
-        {
-
-            if (Directory.Exists(".\\Colaboradores\\" + ItemSelecionado + "\\Horas Extras\\"))
-            {
-                if (Directory.EnumerateFileSystemEntries(".\\Colaboradores\\" + ItemSelecionado + "\\Horas Extras\\", "*.txt").Any())
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static string ConverteMoeda(string Valor)
-        {
-            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("pt-BR");
-            Valor = string.Format("{0:C}", Convert.ToDouble(Valor));
-            return Valor;
-        }
-
-        public static List<List<string>> LerArquivo(string Url)
+        public static List<List<string>> Dados(string Url)
         {
             var linhas = new List<List<string>>();          
            
@@ -127,8 +84,18 @@ namespace ControleHorasExtras
    
         }
 
-    }
 
-
-    
+        public static void GravaDados(List<List<string>> Dados)
+            {
+            var ListaHorasExtras = new List<HorasExtras>();
+            StreamWriter Texto = new StreamWriter(Controles.UrlDiretorio, false);            
+                    foreach (List<string> DadosColaboradores in Dados)
+                        {
+                                string Linha = string.Join("|", DadosColaboradores);
+                                Texto.WriteLine(Linha);
+                        }
+            Texto.Close();
+            }
+     
+    }   
 }

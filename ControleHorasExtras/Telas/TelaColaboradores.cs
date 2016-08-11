@@ -50,6 +50,14 @@ namespace ControleHorasExtras
             try
             {
                 SalvarColaborador();
+                this.FormTelaIicial.AtualizaListaColaboradores();
+                if (Controles.ValidaMensagem("Colaborador cadastrado com sucesso, deseja cadastrar uma novo?", "Pergunta"))
+                {
+                    LimpaCampos();
+                }
+                else {
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -75,14 +83,10 @@ namespace ControleHorasExtras
             ObjColaborador.Salario = TxtBxSalario.Text;
             AlteraLista();
 
-
         }        
         private void AlteraLista()
         {
             Colaborador.AdicionaAlteraColaborador(this.FormTelaIicial.ListagemDeDados, ObjColaborador);
-            this.Close();
-            this.FormTelaIicial.AtualizaListaColaboradores();
-
         }
         private void CarregaCampos(string ID)
         {

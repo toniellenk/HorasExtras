@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.TxBxDtaInicial = new System.Windows.Forms.MaskedTextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.TxBxDtaFinal = new System.Windows.Forms.MaskedTextBox();
             this.ButSalvar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.CombBoxColaboradorTelaHora = new System.Windows.Forms.ComboBox();
             this.LabNomeColaborador = new System.Windows.Forms.Label();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.LabID = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ProviderValidaCampos = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProviderValidaCampos)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -84,7 +86,7 @@
             // 
             // ButSalvar
             // 
-            this.ButSalvar.Location = new System.Drawing.Point(116, 226);
+            this.ButSalvar.Location = new System.Drawing.Point(96, 227);
             this.ButSalvar.Name = "ButSalvar";
             this.ButSalvar.Size = new System.Drawing.Size(75, 23);
             this.ButSalvar.TabIndex = 3;
@@ -94,6 +96,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.CombBoxColaboradorTelaHora);
             this.groupBox3.Controls.Add(this.LabNomeColaborador);
             this.groupBox3.Location = new System.Drawing.Point(12, 61);
             this.groupBox3.Name = "groupBox3";
@@ -102,6 +105,14 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Colaborador";
             // 
+            // CombBoxColaboradorTelaHora
+            // 
+            this.CombBoxColaboradorTelaHora.FormattingEnabled = true;
+            this.CombBoxColaboradorTelaHora.Location = new System.Drawing.Point(8, 16);
+            this.CombBoxColaboradorTelaHora.Name = "CombBoxColaboradorTelaHora";
+            this.CombBoxColaboradorTelaHora.Size = new System.Drawing.Size(226, 21);
+            this.CombBoxColaboradorTelaHora.TabIndex = 1;
+            // 
             // LabNomeColaborador
             // 
             this.LabNomeColaborador.AutoSize = true;
@@ -109,11 +120,6 @@
             this.LabNomeColaborador.Name = "LabNomeColaborador";
             this.LabNomeColaborador.Size = new System.Drawing.Size(0, 13);
             this.LabNomeColaborador.TabIndex = 0;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.DefaultExt = "txt";
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // LabID
             // 
@@ -124,21 +130,15 @@
             this.LabID.TabIndex = 7;
             this.LabID.Text = "ID: ";
             // 
-            // button1
+            // ProviderValidaCampos
             // 
-            this.button1.Location = new System.Drawing.Point(260, 71);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(41, 33);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ProviderValidaCampos.ContainerControl = this;
             // 
             // TelaHorasExtras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(313, 283);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(263, 283);
             this.Controls.Add(this.LabID);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.ButSalvar);
@@ -157,6 +157,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProviderValidaCampos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,9 +171,9 @@
         private System.Windows.Forms.MaskedTextBox TxBxDtaInicial;
         private System.Windows.Forms.MaskedTextBox TxBxDtaFinal;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label LabNomeColaborador;
         private System.Windows.Forms.Label LabID;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox CombBoxColaboradorTelaHora;
+        private System.Windows.Forms.ErrorProvider ProviderValidaCampos;
     }
 }

@@ -21,13 +21,6 @@ namespace ControleHorasExtras
         {
             InitializeComponent();
         }
-
-        public TelaHorasExtras(string ItemSelecionado)
-        {
-            this.NomeColaborador = ItemSelecionado;
-            InitializeComponent();            
-
-        }
         public TelaHorasExtras(TelaInicial InstanciaTelaIicial)
         {
             this.FormTelaIicial = InstanciaTelaIicial;
@@ -36,13 +29,16 @@ namespace ControleHorasExtras
             {
                 case "Colaborador":
                     {
-                        NomeColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString() + " " + FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+                        CombBoxColaboradorTelaHora.Visible = false;
+                        LabNomeColaborador.Text = FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString() + " " + FormTelaIicial.GridPrincipal.CurrentRow.Cells[2].Value.ToString();
+                        ObjHorasExtras.IdColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
+                        ObjHorasExtras.IdHoraExtra = HorasExtras.RetornaNovoID(FormTelaIicial.ListagemDeDados).ToString();
                         break;
                     }
                 case "HorasExtras":
-                    {
-
-                        ObjHorasExtras.IdHoraExtra = HorasExtras.RetornaNovoID(FormTelaIicial.ListagemDeDados).ToString();
+                    {                   
+                        List<string> ListaColaboradores = Colaborador.CarregaColaboradoresSomenteIDeNomes(FormTelaIicial.ListagemDeDados);
+                        CombBoxColaboradorTelaHora.DataSource = ListaColaboradores;
                         LabID.Text += ObjHorasExtras.IdHoraExtra;                        
                         break;
                     }
@@ -56,6 +52,7 @@ namespace ControleHorasExtras
         {
             this.FormTelaIicial = InstanciaTelaIicial;
             InitializeComponent();
+            CombBoxColaboradorTelaHora.Visible = false;
             ObjHorasExtras.IdHoraExtra = FormTelaIicial.GridPrincipal.CurrentRow.Cells[0].Value.ToString();
             CarregaCampos(ObjHorasExtras.IdHoraExtra.Trim());
             this.Alteracao = Alteracao;
@@ -65,9 +62,11 @@ namespace ControleHorasExtras
         {
             try
             {
-                SalvarHoras();
-                FormTelaIicial.AtualizaListaHorasExtras();
-                this.Close();
+                //if (ValidaCamposEmbranco)
+                //{
+                    SalvarHoras();
+         //       }
+                                 
             }
             catch (Exception ex){
                 MessageBox.Show(ex.Message);   
@@ -83,13 +82,24 @@ namespace ControleHorasExtras
         }
         private void SalvarHoras()
         {
-            if (!Alteracao)
-            {
-                ObjHorasExtras.IdColaborador = FormTelaIicial.GridPrincipal.CurrentRow.Cells[1].Value.ToString();
+            if (!Alteracao && FormTelaIicial.TipoGrid == "HorasExtras"){
+                string ColaboradorSelecionado = CombBoxColaboradorTelaHora.SelectedItem.ToString();
+                var valorLinha = ColaboradorSelecionado.Split('-');
+                ObjHorasExtras.IdColaborador = valorLinha[0].Trim();
+                ObjHorasExtras.IdHoraExtra = HorasExtras.RetornaNovoID(FormTelaIicial.ListagemDeDados).ToString();
             }
             ObjHorasExtras.DataInicial = TxBxDtaInicial.Text;
             ObjHorasExtras.DataFinal = TxBxDtaFinal.Text;
-            HorasExtras.AdicionaAlteraHoraExtra(FormTelaIicial.ListagemDeDados, ObjHorasExtras, Alteracao);
+            HorasExtras.AdicionaAlteraHoraExtra(FormTelaIicial.ListagemDeDados, ObjHorasExtras);
+
+            FormTelaIicial.AtualizaListaHorasExtras();
+            if (Controles.ValidaMensagem("Hora extra cadastrada com sucesso, deseja cadastrar uma nova?", "Pergunta"))
+            {
+                LimpaCampos();
+            }
+            else {
+                this.Close();
+            }
         }
 
         private void CarregaCampos(string ID) {
@@ -101,7 +111,7 @@ namespace ControleHorasExtras
 
 
             LabID.Text += ID;
-            LabNomeColaborador.Text = FormTelaIicial.GridPrincipal.CurrentRow.Cells[2].Value.ToString() + " " + FormTelaIicial.GridPrincipal.CurrentRow.Cells[3].Value.ToString();
+            LabNomeColaborador.Text = FormTelaIicial.GridPrincipal.CurrentRow.Cells[2].Value.ToString();
             TxBxDtaInicial.Text = ObjHorasExtras.DataInicial;
             TxBxDtaFinal.Text = ObjHorasExtras.DataFinal;
 
@@ -131,5 +141,25 @@ namespace ControleHorasExtras
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private Boolean ValidaCamposEmbranco(TextBox textbox, ErrorProvider errorprovider)
+        {
+            if (!String.IsNullOrWhiteSpace(textbox.Text))
+            {
+                errorprovider.SetError(textbox, "");
+                return true;
+            }
+            else
+            {
+                errorprovider.SetError(textbox, "Preencha o campo!");
+                return false;
+            }
+
+
+        }
     }
 }

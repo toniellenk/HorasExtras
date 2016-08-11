@@ -15,11 +15,6 @@ namespace ControleHorasExtras
         public string Sobrenome { get; set; }
         public string Salario { get; set; }
 
-
-        public static string UrlDiretorio {
-            get { return ".\\Dados\\Dados.txt"; }
-        }
-
         public static List<Colaborador> CarregaColaboradores(List<List<string>> Listas)
         {
            var ListaColaboradores = new List<Colaborador>();
@@ -31,6 +26,9 @@ namespace ControleHorasExtras
                                 ObjColaborador.Id = DadosColaboradores[1];
                                 ObjColaborador.Nome = DadosColaboradores[2];
                                 ObjColaborador.Sobrenome = DadosColaboradores[3];
+                                if (DadosColaboradores[4] == "") {
+                                    DadosColaboradores[4] = "0";
+                                }
                                 ObjColaborador.Salario = Controles.ConverteMoeda(DadosColaboradores[4]);
                                 ListaColaboradores.Add(ObjColaborador);
                             }
@@ -69,15 +67,20 @@ namespace ControleHorasExtras
 
         public static int RetornaNovoID(List<List<string>> Listas)
         {
-            var ListHorasExtras = new List<int>();
+            int Valor = 1;
+            var ListColaboradores = new List<int>();
             foreach (List<string> DadosHoraExtra in Listas)
             {
                 if (DadosHoraExtra[0] == "A")
                 {
-                    ListHorasExtras.Add(Convert.ToInt32(DadosHoraExtra[2]));
+                    ListColaboradores.Add(Convert.ToInt32(DadosHoraExtra[1]));
                 }
             }
-            return ListHorasExtras.Max() + 1;
+            if (ListColaboradores.Count > 0)
+            {
+                Valor = ListColaboradores.Max() + 1;
+            }
+            return Valor;
         }
         public static void ExcluiColaborador(List<List<string>> Listas, string ID)
         {

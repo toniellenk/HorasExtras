@@ -106,6 +106,7 @@ namespace ControleHorasExtras
         }
         public static int RetornaNovoID(List<List<string>> Listas)
         {
+            int Valor = 1;
             var ListHorasExtras = new List<int>();
             foreach (List<string> DadosHoraExtra in Listas)
             {
@@ -114,27 +115,18 @@ namespace ControleHorasExtras
                     ListHorasExtras.Add(Convert.ToInt32(DadosHoraExtra[2]));
                 }
             }
-            return ListHorasExtras.Max() + 1;
+            if (ListHorasExtras.Count > 0)
+            {
+                Valor = ListHorasExtras.Max() + 1;
+            }
+            return Valor;
         }
 
-        public static void AdicionaAlteraHoraExtra(List<List<string>> Listas, HorasExtras ObjHoraExtra, bool Alteracao)
+        public static void AdicionaAlteraHoraExtra(List<List<string>> Listas, HorasExtras ObjHoraExtra)
         {
             int Indice = 0;
 
-            var ListaQueSeraAdicionada = new List<string>();
-            if (Alteracao)
-            {
-                foreach (List<string> ListaGeral in Listas)
-                {
-                    if (ListaGeral[0] == "B" && ListaGeral[2] == ObjHoraExtra.IdHoraExtra)
-                            {
-                                    ListaGeral[3] = ObjHoraExtra.DataInicial;
-                                    ListaGeral[4] = ObjHoraExtra.DataFinal;
-                            }
-                }
-            }
-            
-            else {                
+            var ListaQueSeraAdicionada = new List<string>();            
                 foreach (List<string> ListaGeral in Listas)
                         {
                                 if (ListaGeral[0] == "A" && ListaGeral[1] == ObjHoraExtra.IdColaborador)
@@ -147,8 +139,7 @@ namespace ControleHorasExtras
                         ListaQueSeraAdicionada.Add(ObjHoraExtra.IdHoraExtra);
                         ListaQueSeraAdicionada.Add(ObjHoraExtra.DataInicial);
                         ListaQueSeraAdicionada.Add(ObjHoraExtra.DataFinal);
-                        Listas.Insert(Indice, ListaQueSeraAdicionada);
-                }            
+                        Listas.Insert(Indice + 1, ListaQueSeraAdicionada);         
         }
     }
 }
