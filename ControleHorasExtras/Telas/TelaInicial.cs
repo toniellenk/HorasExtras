@@ -21,6 +21,7 @@ namespace ControleHorasExtras
         public TelaInicial()
         {
             InitializeComponent();
+            this.FormClosing += new FormClosingEventHandler(FechamentoTelaInicial);
             ComboBoxColaborador.Visible = false;
             GridPrincipal.Enabled = true;
             ButAdicionar.Enabled = false;
@@ -31,20 +32,8 @@ namespace ControleHorasExtras
             LabValorTotal.Enabled = false;
         }
 
-
-
         private void MenuColaboradores_Click(object sender, EventArgs e)
         {
-            ComboBoxColaborador.Visible = false;
-            GridPrincipal.Enabled = true;
-            ButAdicionar.Enabled = true;
-            ButAlterar.Enabled = true;
-            ButRemover.Enabled = true;
-            ButHorasExtras.Visible = true;
-            LabTotal.Enabled = true;
-            LabValorTotal.Enabled = true;
-            LabTotal.Text = "Total da folha: ";
-            TipoGrid = "Colaborador";
             try
             {
                 AtualizaListaColaboradores();
@@ -57,16 +46,6 @@ namespace ControleHorasExtras
 
         private void MenuHorasExtras_Click(object sender, EventArgs e)
         {
-            ComboBoxColaborador.Visible = true;
-            GridPrincipal.Enabled = true;
-            ButAdicionar.Enabled = true;
-            ButAlterar.Enabled = true;
-            ButRemover.Enabled = true;
-            ButHorasExtras.Visible = false;
-            LabTotal.Enabled = true;
-            LabValorTotal.Enabled = true;
-            LabTotal.Text = "Total de Horas: ";
-            TipoGrid = "HorasExtras";
             try
             {
                 AtualizaListaHorasExtras();
@@ -79,7 +58,8 @@ namespace ControleHorasExtras
 
         private void ButAdicionar_Click(object sender, EventArgs e)
         {
-                switch (TipoGrid)
+            Alteracao = false;
+            switch (TipoGrid)
                 {
                     case "Colaborador":
                         {
@@ -130,9 +110,9 @@ namespace ControleHorasExtras
             }
         }
 
-
         private void ButAlterar_Click(object sender, EventArgs e)
         {
+            Alteracao = true;
             if (GridPrincipal.RowCount > 0)
             {
                 switch (TipoGrid)
@@ -164,7 +144,7 @@ namespace ControleHorasExtras
 
         private void ButRemover_Click(object sender, EventArgs e)
         {
-
+            Alteracao = false;
             if (GridPrincipal.RowCount > 0)
             {
                 switch (TipoGrid)
@@ -207,16 +187,66 @@ namespace ControleHorasExtras
             }
         }
 
+        private void ButHorasExtras_Click(object sender, EventArgs e)
+        {
+            Alteracao = false;
+            if (GridPrincipal.RowCount > 0)
+            {
+                TelaHorasExtras Tela = new TelaHorasExtras(this);
+                Tela.ShowDialog();
+            }
+            else {
+                MessageBox.Show("Por favor, selecione algum colaborador!");
+            }
+        }
+
+        private void FechamentoTelaInicial(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Controles.ValidaMensagem("Tem certeza que vai sair?", "Fechar aplicação"))
+            {
+                Controles.GravaDados(ListagemDeDados);
+                e.Cancel = false;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
+
 
         #region Métodos
 
         public void AtualizaListaColaboradores() {
+
+            ComboBoxColaborador.Visible = false;
+            GridPrincipal.Enabled = true;
+            ButAdicionar.Enabled = true;
+            ButAlterar.Enabled = true;
+            ButRemover.Enabled = true;
+            ButHorasExtras.Visible = true;
+            LabTotal.Enabled = true;
+            LabValorTotal.Enabled = true;
+            LabTotal.Text = "Total da folha: ";
+            TipoGrid = "Colaborador";
+
             GridPrincipal.DataSource = Colaborador.CarregaColaboradores(ListagemDeDados);
             LabValorTotal.Text = Controles.ConverteMoeda(Colaborador.SalarioTotal(ListagemDeDados).ToString());
         }
 
         public void AtualizaListaHorasExtras()
         {
+            ComboBoxColaborador.Visible = true;
+            GridPrincipal.Enabled = true;
+            ButAdicionar.Enabled = true;
+            ButAlterar.Enabled = true;
+            ButRemover.Enabled = true;
+            ButHorasExtras.Visible = false;
+            LabTotal.Enabled = true;
+            LabValorTotal.Enabled = true;
+            LabTotal.Text = "Total de Horas: ";
+            TipoGrid = "HorasExtras";
+        
             GridPrincipal.DataSource = HorasExtras.CarregaHorasExtras(ListagemDeDados);     
             List<string> ListaColaboradores = Colaborador.CarregaColaboradoresSomenteIDeNomes(ListagemDeDados);
             ListaColaboradores.Insert(0, "TODOS");
@@ -274,26 +304,8 @@ namespace ControleHorasExtras
 
         #endregion
 
-        private void ButHorasExtras_Click(object sender, EventArgs e)
-        {
-            if (GridPrincipal.RowCount > 0)
-            {
-                TelaHorasExtras Tela = new TelaHorasExtras(this);
-                Tela.ShowDialog();
-            }
-            else {
-                MessageBox.Show("Por favor, selecione algum colaborador!");
-            }
-        }
 
-        private void LabTotal_Click(object sender, EventArgs e)
-        {
 
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Controles.GravaDados(ListagemDeDados);
-        }
     }
 }

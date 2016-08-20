@@ -16,7 +16,6 @@ namespace ControleHorasExtras
     {
         Colaborador ObjColaborador = new Colaborador();
         private TelaInicial FormTelaIicial;
-        public DataTable DtColaborador = new DataTable();
         public TelaColaboradores()
         {
             InitializeComponent();
@@ -49,14 +48,20 @@ namespace ControleHorasExtras
         {
             try
             {
-                SalvarColaborador();
-                this.FormTelaIicial.AtualizaListaColaboradores();
-                if (Controles.ValidaMensagem("Colaborador cadastrado com sucesso, deseja cadastrar uma novo?", "Pergunta"))
+                if (ValidaCamposEmbranco())
                 {
-                    LimpaCampos();
-                }
-                else {
-                    this.Close();
+                    SalvarColaborador();
+
+                    if (!FormTelaIicial.Alteracao && Controles.ValidaMensagem("Colaborador cadastrado com sucesso, deseja cadastrar uma novo?", "Pergunta"))
+                    {
+                        LimpaCampos();
+                        ObjColaborador.Id = null;
+                        FormTelaIicial.AtualizaListaColaboradores();
+                    }
+                    else {
+                        FormTelaIicial.AtualizaListaColaboradores();
+                        this.Close();
+                    }
                 }
             }
             catch (Exception ex)
@@ -72,6 +77,7 @@ namespace ControleHorasExtras
             TxtBxNome.Clear();
             TxtBxSobrenome.Clear();
             TxtBxSalario.Clear();
+            LabValor.Text = null;
         }
         private void SalvarColaborador()
         {
@@ -96,8 +102,27 @@ namespace ControleHorasExtras
             TxtBxSobrenome.Text = Dados[1];
             TxtBxSalario.Text = Dados[2];
         }
-       
 
+        private Boolean ValidaCamposEmbranco()
+        {
+            bool retorno = false;
+            ProviderValidaCampos.Clear();
+            if (String.IsNullOrWhiteSpace(TxtBxNome.Text))
+            {
+                ProviderValidaCampos.SetError(groupBox1, "Preencha o campo!");
+            }
+            else if (String.IsNullOrWhiteSpace(TxtBxSalario.Text))
+            {                
+                ProviderValidaCampos.SetError(groupBox3, "Preencha o campo!");
+            }
+            else
+            {
+                ProviderValidaCampos.Clear();
+                retorno = true;
+            }
+            return retorno;
+
+        }
         #endregion
 
     }

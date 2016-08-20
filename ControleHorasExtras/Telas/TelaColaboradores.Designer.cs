@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaColaboradores));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.TxtBxNome = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -37,15 +39,18 @@
             this.ButSalvar = new System.Windows.Forms.Button();
             this.LabValor = new System.Windows.Forms.Label();
             this.LabId = new System.Windows.Forms.Label();
+            this.ProviderValidaCampos = new System.Windows.Forms.ErrorProvider(this.components);
+            this.toolTipCampos = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProviderValidaCampos)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.TxtBxNome);
-            this.groupBox1.Location = new System.Drawing.Point(60, 70);
+            this.groupBox1.Location = new System.Drawing.Point(61, 66);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(195, 39);
             this.groupBox1.TabIndex = 0;
@@ -54,6 +59,7 @@
             // 
             // TxtBxNome
             // 
+            this.TxtBxNome.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.TxtBxNome.Location = new System.Drawing.Point(7, 13);
             this.TxtBxNome.Name = "TxtBxNome";
             this.TxtBxNome.Size = new System.Drawing.Size(182, 20);
@@ -62,7 +68,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.TxtBxSobrenome);
-            this.groupBox2.Location = new System.Drawing.Point(60, 117);
+            this.groupBox2.Location = new System.Drawing.Point(61, 113);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(320, 39);
             this.groupBox2.TabIndex = 1;
@@ -71,6 +77,7 @@
             // 
             // TxtBxSobrenome
             // 
+            this.TxtBxSobrenome.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.TxtBxSobrenome.Location = new System.Drawing.Point(6, 13);
             this.TxtBxSobrenome.Name = "TxtBxSobrenome";
             this.TxtBxSobrenome.Size = new System.Drawing.Size(308, 20);
@@ -79,7 +86,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.TxtBxSalario);
-            this.groupBox3.Location = new System.Drawing.Point(60, 162);
+            this.groupBox3.Location = new System.Drawing.Point(61, 158);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(99, 39);
             this.groupBox3.TabIndex = 2;
@@ -96,7 +103,7 @@
             // 
             // ButSalvar
             // 
-            this.ButSalvar.Location = new System.Drawing.Point(180, 242);
+            this.ButSalvar.Location = new System.Drawing.Point(181, 238);
             this.ButSalvar.Name = "ButSalvar";
             this.ButSalvar.Size = new System.Drawing.Size(75, 23);
             this.ButSalvar.TabIndex = 3;
@@ -109,7 +116,7 @@
             this.LabValor.AutoSize = true;
             this.LabValor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabValor.ForeColor = System.Drawing.Color.Red;
-            this.LabValor.Location = new System.Drawing.Point(165, 182);
+            this.LabValor.Location = new System.Drawing.Point(166, 178);
             this.LabValor.Name = "LabValor";
             this.LabValor.Size = new System.Drawing.Size(0, 13);
             this.LabValor.TabIndex = 4;
@@ -123,6 +130,10 @@
             this.LabId.TabIndex = 5;
             this.LabId.Text = "ID: ";
             // 
+            // ProviderValidaCampos
+            // 
+            this.ProviderValidaCampos.ContainerControl = this;
+            // 
             // TelaColaboradores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -134,6 +145,7 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TelaColaboradores";
@@ -146,6 +158,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ProviderValidaCampos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,5 +175,7 @@
         private System.Windows.Forms.TextBox TxtBxSalario;
         private System.Windows.Forms.Label LabValor;
         private System.Windows.Forms.Label LabId;
+        private System.Windows.Forms.ErrorProvider ProviderValidaCampos;
+        private System.Windows.Forms.ToolTip toolTipCampos;
     }
 }

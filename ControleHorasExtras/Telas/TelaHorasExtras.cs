@@ -14,8 +14,9 @@ namespace ControleHorasExtras
     public partial class TelaHorasExtras : Form
     {
         HorasExtras ObjHorasExtras = new HorasExtras();
-        string NomeColaborador;
+        bool CamposValidados = false;
         bool Alteracao = false;
+
         private TelaInicial FormTelaIicial;
         public TelaHorasExtras()
         {
@@ -23,6 +24,7 @@ namespace ControleHorasExtras
         }
         public TelaHorasExtras(TelaInicial InstanciaTelaIicial)
         {
+
             this.FormTelaIicial = InstanciaTelaIicial;
             InitializeComponent();
             switch (FormTelaIicial.TipoGrid)
@@ -62,10 +64,10 @@ namespace ControleHorasExtras
         {
             try
             {
-                //if (ValidaCamposEmbranco)
-                //{
+                if (CamposValidados)
+                {
                     SalvarHoras();
-         //       }
+                }
                                  
             }
             catch (Exception ex){
@@ -73,6 +75,71 @@ namespace ControleHorasExtras
             }
         }
 
+        void maskedTxBxDtaInicial_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
+            {
+            if (!e.IsValidInput)
+            {
+                ToolTipCampos.ToolTipTitle = "Data inicial inválida";
+                ToolTipCampos.Show("A data deve estar no formato dd/mm/aaaa hh:mm.", groupBox1, 0, -20, 5000);
+                ProviderValidaCampos.SetError(TxBxDtaInicial, "Data inválida");
+                CamposValidados = false;
+                TxBxDtaFinal.Clear();
+            }
+            else
+            {
+                DateTime userDate = (DateTime)e.ReturnValue;
+                if (userDate > DateTime.Now)
+                {
+                    ToolTipCampos.ToolTipTitle = "Data inicial inválida";
+                    ToolTipCampos.Show("A data inicial não pode ser maior que a data de hoje.", groupBox1, 0, -20, 5000);
+                    e.Cancel = true;
+                    CamposValidados = false;
+                }
+                else
+                {
+                    ProviderValidaCampos.Clear();
+                    CamposValidados = true;
+                }
+            }
+        }
+
+        void maskedTxBxDtaFinal_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
+        {
+            if (!e.IsValidInput)
+            {
+                ToolTipCampos.ToolTipTitle = "Data final inválida";
+                ToolTipCampos.Show("A data final deve estar no formato dd/mm/aaaa hh:mm.", groupBox2, 0, -20, 5000);
+                ProviderValidaCampos.SetError(TxBxDtaFinal, "Data inválida");
+                TxBxDtaFinal.Clear();
+                CamposValidados = false;
+            }
+            else
+            {
+                DateTime userDate = (DateTime)e.ReturnValue;
+                if (userDate < Convert.ToDateTime(TxBxDtaInicial.Text))
+                {
+                    ToolTipCampos.ToolTipTitle = "Data final inválida";
+                    ToolTipCampos.Show("Data final não pode ser menor que a data inicial", groupBox2, 0, -20, 5000);                    
+                    e.Cancel = true;
+                    CamposValidados = false;
+                }
+                else
+                {
+                    ProviderValidaCampos.Clear();
+                    CamposValidados = true;
+                }
+            }
+        }
+
+        void maskedTxBxDtaInicial_KeyDown(object sender, KeyEventArgs e)
+        {
+            ToolTipCampos.Hide(TxBxDtaInicial);
+        }
+
+        void maskedTxBxDtaFinal_KeyDown(object sender, KeyEventArgs e)
+        {
+            ToolTipCampos.Hide(TxBxDtaFinal);
+        }
         #region Métodos
 
         private void LimpaCampos()
@@ -92,8 +159,11 @@ namespace ControleHorasExtras
             ObjHorasExtras.DataFinal = TxBxDtaFinal.Text;
             HorasExtras.AdicionaAlteraHoraExtra(FormTelaIicial.ListagemDeDados, ObjHorasExtras);
 
-            FormTelaIicial.AtualizaListaHorasExtras();
-            if (Controles.ValidaMensagem("Hora extra cadastrada com sucesso, deseja cadastrar uma nova?", "Pergunta"))
+            if (FormTelaIicial.TipoGrid == "HorasExtras") {
+                FormTelaIicial.AtualizaListaHorasExtras();
+            }
+
+            if (!FormTelaIicial.Alteracao && Controles.ValidaMensagem("Hora extra cadastrada com sucesso, deseja cadastrar uma nova?", "Pergunta"))
             {
                 LimpaCampos();
             }
@@ -101,7 +171,6 @@ namespace ControleHorasExtras
                 this.Close();
             }
         }
-
         private void CarregaCampos(string ID) {
             List<string> Dados = HorasExtras.CarregaUnicaHoraExtra(FormTelaIicial.ListagemDeDados, ID);
 
@@ -121,45 +190,14 @@ namespace ControleHorasExtras
 
         #endregion
 
-        private void TxtBxNome_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void maskedTextBox2_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
         private void TelaHorasExtras_Load(object sender, EventArgs e)
         {
-
+            this.TxBxDtaInicial.TypeValidationCompleted += new TypeValidationEventHandler(maskedTxBxDtaInicial_TypeValidationCompleted);
+            this.TxBxDtaInicial.KeyDown += new KeyEventHandler(maskedTxBxDtaInicial_KeyDown);
+            this.TxBxDtaFinal.TypeValidationCompleted += new TypeValidationEventHandler(maskedTxBxDtaFinal_TypeValidationCompleted);
+            this.TxBxDtaFinal.KeyDown += new KeyEventHandler(maskedTxBxDtaFinal_KeyDown);
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private Boolean ValidaCamposEmbranco(TextBox textbox, ErrorProvider errorprovider)
-        {
-            if (!String.IsNullOrWhiteSpace(textbox.Text))
-            {
-                errorprovider.SetError(textbox, "");
-                return true;
-            }
-            else
-            {
-                errorprovider.SetError(textbox, "Preencha o campo!");
-                return false;
-            }
-
-
-        }
     }
 }

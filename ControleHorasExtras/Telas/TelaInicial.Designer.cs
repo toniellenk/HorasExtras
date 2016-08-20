@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaInicial));
             this.MenuPrincipal = new System.Windows.Forms.MenuStrip();
             this.MenuCadastros = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuColaboradores = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,7 +42,6 @@
             this.LabTotal = new System.Windows.Forms.Label();
             this.LabValorTotal = new System.Windows.Forms.Label();
             this.ComboBoxColaborador = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.MenuPrincipal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GridPrincipal)).BeginInit();
             this.SuspendLayout();
@@ -176,7 +176,6 @@
             this.LabTotal.Size = new System.Drawing.Size(93, 13);
             this.LabTotal.TabIndex = 6;
             this.LabTotal.Text = "Total da Folha:";
-            this.LabTotal.Click += new System.EventHandler(this.LabTotal_Click);
             // 
             // LabValorTotal
             // 
@@ -198,22 +197,11 @@
             this.ComboBoxColaborador.TabIndex = 8;
             this.ComboBoxColaborador.TextChanged += new System.EventHandler(this.ComboBoxColaborador_AlteraValor);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(548, 521);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // TelaInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.ComboBoxColaborador);
             this.Controls.Add(this.LabValorTotal);
             this.Controls.Add(this.LabTotal);
@@ -223,6 +211,7 @@
             this.Controls.Add(this.ButAdicionar);
             this.Controls.Add(this.GridPrincipal);
             this.Controls.Add(this.MenuPrincipal);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuPrincipal;
             this.Name = "TelaInicial";
             this.Text = "Super Controlador de Horas Extras";
@@ -249,7 +238,6 @@
         private System.Windows.Forms.Label LabTotal;
         private System.Windows.Forms.Label LabValorTotal;
         private System.Windows.Forms.ComboBox ComboBoxColaborador;
-        private System.Windows.Forms.Button button1;
     }
 }
 

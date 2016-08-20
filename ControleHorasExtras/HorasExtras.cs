@@ -19,11 +19,6 @@ namespace ControleHorasExtras
         public string DataFinal { get; set; }
         public string HoraFinal { get; set; }
 
-        public static string UrlDiretorio()
-        {
-            return ".\\Colaboradores\\"; 
-        }
-
         public static List<HorasExtras> CarregaHorasExtras(List<List<string>> Listas)
         {
             var ListaHorasExtras = new List<HorasExtras>();
