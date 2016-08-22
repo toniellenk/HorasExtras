@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace ControleHorasExtras
 {
-    class Controles
+    public class Controles
     {
         public static string UrlDiretorio
         {
@@ -51,35 +51,36 @@ namespace ControleHorasExtras
         {
             var linhas = new List<List<string>>();          
            
-                    try {
-                        if (File.Exists(Url))
-                                using (StreamReader sr = new StreamReader(Url))
+                   try {
+                            if (!File.Exists(Url))
+                            {
+                                StreamWriter sw = new StreamWriter(Url);
+                                sw.Close();
+                            }
+                            using (StreamReader sr = new StreamReader(Url))
+                            {
+                                string line;
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    List<string> linha = new List<string>();
+                                    var valorLinha = line.Split('|');
+                                    for (int indice = 0; indice <= valorLinha.Length - 1; indice++)
                                     {
-                                        string line;
-                                        while ((line = sr.ReadLine()) != null)
-                                        {
-                                            List<string> linha = new List<string>();
-                                            var valorLinha = line.Split('|');
-                                            for (int indice = 0; indice <= valorLinha.Length - 1; indice++)
-                                            {
-                                                linha.Add(valorLinha[indice]);
-                                            }
-                                            linhas.Add(linha);                                            
-                                        }
-                                        return linhas;
-                                        
+                                        linha.Add(valorLinha[indice]);
                                     }
-                        else
-                        {
-                            MessageBox.Show("Não existe o arquivo Dados.txt no diretório .\\Dados\\");
-                            return null;
-                        }    
-                                
-                    }
+                                    linhas.Add(linha);
+                                }
+                                return linhas;
+                            }
+
+                        }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
-                        return null;
+                //                MessageBox.Show(e.Message);
+                            List<string> linha = new List<string>();
+                            linha.Add(e.Message);
+                            linhas.Add(linha);
+                            return linhas;
                     }
    
         }

@@ -1,0 +1,15 @@
+﻿    body{font-family:Calibri, Tahoma, Arial}
+	.TabControl{ width:100%; overflow:hidden; height:800px }
+	.TabControl #PaiAbas{ width:100%;  overflow:hidden; cursor:pointer}
+	.TabControl #content{ width:100%; border: solid 1px;overflow:hidden; height:100%; }
+	.TabControl .abas{display:inline;}
+	.TabControl .abas li{float:left; list-style-type: none;}
+	.aba{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
+		text-align:center; padding-top:5px; background:#808080;}
+	.ativa{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
+		text-align:center; padding-top:5px; background:#A9A9A9; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif}
+	.ativa span, .selected span{color:#000000}
+	.TabControl #content{background:#A9A9A9; border: solid 2px;}
+	.TabControl .conteudo{width:100%;  background:#A9A9A9; display:none; height:100%;color:#000000}
+	.selected{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
+		text-align:center; padding-top:5px; background:#A9A9A9}
