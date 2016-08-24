@@ -15,7 +15,6 @@ public partial class _Default : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
         {
                 ListagemDeDados = Controles.Dados(Controles.UrlDiretorio);
-                GridPrincipal.DataSource = Colaborador.CarregaColaboradores(ListagemDeDados);
-                GridPrincipal.DataBind();
+                Session["ListagemDeDados"] = ListagemDeDados;
         }
     }

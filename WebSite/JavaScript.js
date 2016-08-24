@@ -3,12 +3,7 @@
     $(".abas li:first div").addClass("selected");
 
     $(".aba").click(function(){
-        $(".aba").removeClass("selected");
-        $(this).addClass("selected");
-            var indice = $(this).parent().index();
-            indice++;
-                $("#content div").hide();
-                $("#content div:nth-child("+indice+")").show();
+        $("#FrameGrade").hide();
     });
 
     $(".aba").hover(

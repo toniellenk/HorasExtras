@@ -27,12 +27,10 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="conteudo">
-			      <asp:GridView runat="server" ID="GridPrincipal"></asp:GridView>
-<%--            <iframe id="frm1" src=".//Colaborador//colaborador.aspx"   ></iframe>--%>
+		<div class="conteudo">			      
+                  <iframe id="FrameGrade" src="Colaborador/Colaborador.aspx" width="800" height="500" ></iframe>
 		</div>
-		<div class="conteudo">
-			Conteúdo da aba 2
+        <div class="conteudo">			      
 		</div>
 	</div>
 </div>

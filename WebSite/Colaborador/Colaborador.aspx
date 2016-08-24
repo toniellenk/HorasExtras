@@ -7,6 +7,8 @@
     <title></title>
 </head>
 <body>
-        Olá Mundo!
+    <form id="FrmColaborador" runat="server">
+       <asp:GridView runat="server" ID="GridPrincipal"></asp:GridView>
+    </form>
 </body>
 </html>
