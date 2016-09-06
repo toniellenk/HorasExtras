@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace ControleHorasExtras
 {
-    class HorasExtras
+    public class HorasExtras
     {
         public string IdHoraExtra { get; set; }
         public string IdColaborador { get; set; }

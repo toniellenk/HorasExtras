@@ -1,24 +1,27 @@
-﻿$(document).ready(function () {
+﻿
+
+$(document).ready(function () {
     $("#content div:nth-child(1)").show();
-    //$(".abas li:first div").addClass("selected");
+    //$(".ClassAba1").click(function () {
+    //    $("#FrameGrade").show();
+    //    $(".ClassAba1").addClass("selecionado");
+    //    $(".ClassAba2").removeClass("selecionado");
+    //});
 
-    $(".aba1").click(function(){
-        $("#FrameGrade").hide();
-        $(".aba1").addClass("selecionado");
-        $(".aba2").removeClass("selecionado");
+    //$(".ClassAba2").click(function () {
+    //    $("#FrameGrade").hide();
+    //    $(".ClassAba2").addClass("selecionado");
+    //    $(".ClassAba1").removeClass("selecionado");
+    //});
+    $("#<%=GridPrincipal.UniqueID%> tr").click(function () {
+        $(this).css("background-color", "yellow");
     });
-
-    $(".aba2").click(function () {
-        $("#FrameGrade").show();
-        $(".aba2").addClass("selecionado");
-        $(".aba1").removeClass("selecionado");
-    });
-
-    $(".aba1").hover(
+    
+    $(".ClassAba1").hover(
         function(){$(this).addClass("ativa1")},
         function(){$(this).removeClass("ativa1")}
     );
-    $(".aba2").hover(
+    $(".ClassAba2").hover(
         function () { $(this).addClass("ativa2") },
         function () { $(this).removeClass("ativa2") }
 

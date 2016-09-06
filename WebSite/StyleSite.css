@@ -1,20 +1,23 @@
-﻿    body{font-family:Calibri, Tahoma, Arial}
-	.TabControl{ width:100%; overflow:hidden; height:800px }
+﻿    body{font-family:Calibri, Tahoma, Arial;}
+	.TabControl{ width:100%; overflow:hidden; height:900px }
 	.TabControl #PaiAbas{ width:100%;  overflow:hidden; cursor:pointer}
 	.TabControl #content{ width:100%; border: solid 1px;overflow:hidden; height:100%; background:#A9A9A9; border: solid 2px;}
 	.TabControl .abas{display:inline;}
 	.TabControl .abas li{float:left; list-style-type: none;}
-	.aba1{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
+
+	.ClassAba1{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
 		text-align:center; padding-top:5px; background:#808080;}
-    .aba2{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
+    .ClassAba2{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
 		text-align:center; padding-top:5px; background:#808080;}
-	.ativa1{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
-		text-align:center; padding-top:5px; background:#CCC;; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif}
+
+  	.ativa1{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
+		text-align:center; padding-top:5px; background:#CCC; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif}
     .ativa2{width:100px; height:30px; border:solid 1px; border-radius:5px 5px 0 0;
 		text-align:center; padding-top:5px; background:#CCC; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif}
-	.conteudo{width:100%;  background:#CCC; display:none; height:100%;color:#000}
 
-    .selecionado {
-    background:#CCC;
-}
+	.conteudo{width:1300px;  background:#CCC; display:none; height:861px;color:#000; position: absolute; left: 16%;}
+
+    .Botoes{font-size:14px;}
+
+    .Titulo{background:#CCC; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif}
 

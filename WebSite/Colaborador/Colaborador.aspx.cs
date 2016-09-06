@@ -11,8 +11,8 @@ public partial class TelaColaborador : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        GridPrincipal.DataSource = Colaborador.CarregaColaboradores((List<List<string>>)Session["ListagemDeDados"]);
-        GridPrincipal.DataBind();
+   //     GridPrincipal.DataSource = Colaborador.CarregaColaboradores((List<List<string>>)Session["ListagemDeDados"]);
+    //    GridPrincipal.DataBind();
     }
 
 }
